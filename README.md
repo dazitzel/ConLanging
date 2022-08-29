@@ -1,13 +1,19 @@
 # ConLanging
 Experiments in analyzing and creating constructed languages
 
-## LCT
+## LanguageTemplate
 
 Creative Commons Attribution ShareAlike 4.0 
 https://creativecommons.org/licenses/by-sa/4.0/
 
-LCT is my XeLaTeX conversion of a pages template provided by David Petersen and Jessie Simms from LangTime Studio.
-I updated how the consonants and vowels are displayed, made changes to the word-type category in the dictionary explanation, and (being TeX) added a couple of macros.
-The rest are their words.
+Language Template began as my XeLaTeX conversion of a pages template provided by David Petersen and Jessie Simms from LangTime Studio.
+I've turned it into a full blown list of reminders of what to include in a language description along with changes to the word-type category in the dictionary explanation, and (being TeX) using macros.
 
 Hopefully I might get around to actually using it too!
+
+## mf4cl (METAFONT for Conlanging)
+
+GNU Free Documentation License
+https://www.gnu.org/licenses/old-licenses/fdl-1.2.en.html
+
+A re-working of the METAFONT Tutorial with the hope that I will eventually include how to get a ttf file out of it.
