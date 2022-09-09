@@ -15,7 +15,7 @@
 
 \title{\bf\Huge \texttt{METAFONT} for Conlanging}
 \author{by dazitzel}
-\date{Version 0.9, \today}
+\date{Version 1.1, \today}
 
 \newfont{\letterbeta}{letterbeta}
 
@@ -68,16 +68,18 @@ We must also thank him as the creator of \MF.
 \chapter{Changes}
 
 \begin{description}
-\item[v.~0.9] Chapter 3 on making simple fonts completed --- first public release.
-\item[v.~0.8] Beginning and end of chapter 2 streamlined.
-\item[v.~0.7] Chapter 2 taken from Christophe~Grandsire.
-\item[v.~0.6] Chapter 1 reworked.
-\item[v.~0.5] Chapter 1 modernized.
-\item[v.~0.4] Chapter 1 taken from Christophe~Grandsire.
-\item[v.~0.3] Preface stolen from Christophe~Grandsire and made boring.
-\item[v.~0.2] Appendix B from Christophe~Grandsire worked into chapter 0.
-\item[v.~0.1] Chapter 0 modernized.
-\item[v.~0.0] Chapter 0 taken from Christophe~Grandsire.
+\item[v.~1.1] Lesson 4 on accents
+\item[v.~1.0] Chapter 3 on making simple fonts completed --- first public release.
+\item[v.~0.9] Beginning and end of chapter 2 streamlined.
+\item[v.~0.8] Chapter 2 taken from Christophe~Grandsire.
+\item[v.~0.7] Chapter 1 reworked.
+\item[v.~0.6] Chapter 1 modernized.
+\item[v.~0.5] Chapter 1 taken from Christophe~Grandsire.
+\item[v.~0.4] Preface stolen and Christophe~Grandsire and made boring.
+\item[v.~0.3] Appendix B from Christophe~Grandsire worked into chapter 0.
+\item[v.~0.2] Chapter 0 modernized.
+\item[v.~0.1] Chapter 0 taken from Christophe~Grandsire.
+\item[v.~0.0] Initial stucture of chapters.
 \end{description}
 
 \chapter{Preface}
@@ -303,6 +305,7 @@ into a pdf file for viewing and printing.
 I don't repeat a lot of what \textsl{The \MF\ Book} covers.
 Instead I cover the basics and know that you can look up additional tricks and details in the
 official book.
+\item This tutorial!
 \end{itemize}
 
 \section{\MF's proofmode}
@@ -937,8 +940,6 @@ So if we say \verb|(3,2)| we mean start at some predefined location, move three 
 horizontally (to the right) and two units vertically (up).
 The predefined location is called the \textbf{origin} because it is where all direction is
 measured from.
-
-\eject
 
 If the first number is:
 \begin{center}
@@ -2079,6 +2080,9 @@ look like.
 \texttt{pencircle xscaled 5 yscaled 20;} &
 \texttt{pensquare scaled 20;} \\
 (c) & (d) \\
+\end{tabular}
+
+\begin{tabular}{cc}
 \includegraphics{flatpen5.jpg} &
 \includegraphics{flatpen6.jpg} \\
 \texttt{pensquare xscaled 20 yscaled 5;} &
@@ -2164,6 +2168,9 @@ effect the angle alone of a pen can have on the looks of otherwise identical cur
 \texttt{yscaled 5 rotated 60;} &
 \texttt{yscaled 5 rotated 120;}\\
 (c) & (d) \\
+\end{tabular}
+
+\begin{tabular}{cc}
 \includegraphics{anglepen5.jpg} &
 \includegraphics{anglepen6.jpg} \\
 \texttt{pencircle xscaled 20} &
@@ -2511,8 +2518,7 @@ unfill (10,10)..(10,65)..(15,80)..(15,10)..cycle;
 \noindent
 Now we can use this to make any letter.
 I've never personally tried this technique to make a letter.
-I don't have very many experiments myself yet, and I really like the idea of simulating pens, but
-if you decide to move from a pen-based writing system to something more like a printing press
+If you decide to move from a pen-based writing system to something more like a printing press
 then this may be a way to go.
 It will allow for all sorts of letter decorations (like serifs) to be attached which may exist
 but not be a part of general penmanship.
@@ -2576,7 +2582,274 @@ On the other hand the middle layer does let you know that the letters are in the
 every font.
 Regardless, it's something to think about.
 
-\chapter{From \MF\ to Modern Font}
+\chapter{Accents and Abjads}
+
+In this lesson I hope to teach you enough about accents that you can add one (or two) accents to
+any letter you choose.
+
+\section{Introduction}
+
+There's actually a few things to introduce here.
+
+\subsection{Abjads}
+
+Strictly speaking, \textbf{abjad}s do not need accents of any kind.
+In an pure abjad, the techniques of alphabets in the prior lesson would work just fine.
+There would be one symbol per consonant and enough context to determine the vowels.
+But there are many abjads which are not pure and, for reasons not well understood, these writing
+systems seem to like to add these vowels by means of small accent marks.
+Sometimes for all of them but often only for the surprising vowel sounds.
+
+\subsection{What are accents}
+
+Abjad users aren't the only ones.
+Whenever I spell \emph{co\"ordinate}, I am using an accent that tells you that this word does not
+follow the normal rules of pronounciation.
+That \"\ says that it begins with a /c\=o$\cdot$\=ord/ and not /c\t oord/.
+
+Sometimes the accents are so integrated that they are considered new letters, our J used to be I
+an extended tail.
+
+Other times what looks like an accent is just part of the letter: we have i and j but not \i\ nor
+\j.
+
+What really determines whether something is an accent or not is how the users of the system treat
+them.
+If they see them as separate letters, then they are separate letters even if they write it as a
+base letter plus an accent mark.
+
+\subsection{Typing accents}
+
+There are about three different methods for handling accents.
+
+First, you can treat it as a separate letter anyway and just go for it.
+Some digital fonts (and keyboard drivers) have done this even when the language considers it an
+accent.
+
+Second, you can take what's called the \textbf{dead-key} approach.
+There are special \emph{accent keys} which do nothing when pressed --- they are dead keys.
+When you type the next key, if it can accept that accent, then it is accented.
+If it can't accept that accent, then it just types normally.
+\TeX\ and \MF\ (as well as many keyboard drivers) do this.
+When I want to say \"o\ in \TeX\ I have to type \verb|\"o| which is effectively a \texttt{"} dead
+key followed by a compatible base character.
+
+Third, you can take what's called the \textbf{combining} approach.
+There are special \emph{accent keys} which go back and add an accent to the prior character.
+This is what \textsc{Unicode} (and modern digital fonts) do.
+So even if you type using a dead key approach, the computer may be switching things around for
+you.
+
+This means that for this lesson, you won't be learning about how \TeX\ and \MF\ handle accents.
+You will instead be learning how to make accents that will evenutually work nicely with modern
+digital fonts.
+
+\subsection{Limits}
+
+Even though many abjads are right to left writing, we won't be covering that yet.
+And we won't be talking about writing systems like Arabic that change form depending on the
+letters around them.
+We are just talking about adding accents.
+
+In order to make accents look as good as possible, you really need to custom make all the glyphs
+you want to support with individual accent marks.
+Doing this is more a question of either kerning or ligatures (and a future lesson).
+We are taking the simple approach for now which should let you get something up and running.
+
+\section{Language}
+
+Our language will consist of one letter and three accents.
+The base letter will look quite a bit like our letter o.
+The accents will be a hat above the o, a pair of dots within the o, and a curve below the o.
+
+\section{Glyphs}
+
+We've talked about thinking through orgainizing files before we get too involved.
+Let's actually do that this time.
+
+\begin{quote}
+\begin{tabular}{lcl}
+\texttt{ofont.mf}     &---&The entire font.\\
+\texttt{ochar.mf}     &---&Our base character.\\
+\texttt{accenthigh.mf}&---&The high accent.\\
+\texttt{accentmid.mf} &---&The middle accent.\\
+\texttt{accentlow.mf} &---&The low accent.\\
+\end{tabular}
+\end{quote}
+
+Let's take a look at our primary font file first.
+The file \texttt{ofont.mf} looks like this:
+
+\begin{quote}
+\begin{verbatim}
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+char_code:= hex "0040";
+
+char_code:=char_code+1; input ochar;
+
+char_code:= hex "0060";
+
+char_code:=char_code+1; input accenthigh;
+char_code:=char_code+1; input accentmid;
+char_code:=char_code+1; input accentlow;
+
+end;
+\end{verbatim}
+\end{quote}
+
+So this is exactly as I explained.
+If I change my mind about the proper order of the accents, I just have to move them around.
+By making the first \texttt{char\_code} start at a value of 64, that means the next letter is in
+the place of capital A.
+By making the second \texttt{char\_code} start at a value of 96, that means the accents start at
+lowercase a.
+So much for the primary font file, let's see our base character shape.
+The file \texttt{ochar.mf} look like this:
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 5);
+endchar;
+\end{verbatim}
+\end{quote}
+
+Absolutely none of this should come as a surprise.
+Now let's go see our first accent mark.
+If we take a look at \texttt{accenthigh.mf} we find:
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-11u,0.9h);
+    z2=(5u-11u,   h);
+    z3=(7u-11u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+This may not look too unusual at first, but take a closer look at \texttt{beginchar}.
+The second argument (the width) is 0!
+We have just defined a character that has a width of 0---that is, after this character has been
+added to the page then \TeX\ is to not advance any amount before moving onto the next character.
+This is the reverse of the dead key.
+What we have here is a dead character.
+So you type ``o'', and \TeX\ moves forward ready for your next character;
+then you type \"\ and \TeX\ ignores it when assembling the page--- though ink will still be added
+when it is time to paint the page.
+
+Take a second look and notice the co\"ordinate \texttt{z1}.
+\texttt{z1=(-8u,0.9h)}.
+\MF\ has been instructed to place ink both outside and to the left of the glyph space.
+So this accent (of no space) goes back and adds ink to the previous character.
+Which should not seem that off since that is what people do as well.
+
+Alright, let's take a look at the two other accent characters and see what they look like.
+In \texttt{accentmid.mf} we find:
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(4u-11u,0.4h);
+    z2=(6u-11u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1;
+    draw z2;
+    labels(range 1 thru 2);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\noindent And in \texttt{accentlow.mf} we find:
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-11u,-0.2h);
+    z2=(5u-11u,-0.1h);
+    z3=(7u-11u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+Now let's build the font.
+
+\begin{quote}
+\begin{verbatim}
+mf '\mode=ljfour; mode_setup; input ofont.mf'
+gftopk ofont.600gf
+\end{verbatim}
+\end{quote}
+
+And let's test it out.
+
+\begin{quote}
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\ofont}{ofont}
+
+Letter by itself.
+
+{\ofont A }
+
+Letters with one accent.
+
+{\ofont Aa Ab Ac }
+
+Letters with two accents.
+
+{\ofont Aab Aac Abc }
+
+Now one hunderd letters with all three accents!
+
+{\ofont
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+}
+
+\end{document}
+\end{verbatim}
+\end{quote}
+
+\section{Extras}
+
+This will give you accents, but it also assumes that all the characters are of a similar width.
+If you had a character that looked more like an I or l, then these accents would be too far to
+the left.
+If you had a character that had a width more like an M or W, then the accent would be too far to
+the right.
+
+One solution to that is to make every character have the same width.
+Another is to have different accents.
+The better answer is handled in next lesson.
+
+\chapter{From \MF\ to Modern Fonts}
 
 So it's quite wonderful that we have these fonts that we can use in \TeX, but how do we share
 these fonts with others, or even use these fonts in places outside of the world of \TeX?
@@ -2602,6 +2875,8 @@ But these early home appliances could not actually run something like \MF\ and/o
 What they could do is allow someone to make a document that was \emph{nicer} than just using a
 using a typewriter.
 Digital fonts were created, simple pixel based images that people could make on their own to get
+the exact effect they wanted as long as they were willing to make a new font for every device
+
 \immediate\closeout\mfanswers
 
 \appendix
@@ -2609,6 +2884,6 @@ Digital fonts were created, simple pixel based images that people could make on 
 \input{mf4clans.tex}
 
 \include{mfgfdl}
-
 \end{document}
 
+\end{document}
