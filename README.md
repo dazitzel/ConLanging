@@ -17,3 +17,4 @@ GNU Free Documentation License
 https://www.gnu.org/licenses/old-licenses/fdl-1.2.en.html
 
 A re-working of the METAFONT Tutorial with the hope that I will eventually include how to get a ttf file out of it.
+Current release is https://github.com/dazitzel/ConLanging/blob/main/mf4cl.pdf
