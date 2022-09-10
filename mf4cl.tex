@@ -2,6 +2,7 @@
 
 \usepackage{fancyvrb}
 \usepackage{framed}
+\usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 \usepackage{verbatim}
@@ -15,7 +16,7 @@
 
 \title{\bf\Huge \texttt{METAFONT} for Conlanging}
 \author{by dazitzel}
-\date{Version 1.1, \today}
+\date{Version 1.2, \today}
 
 \newfont{\letterbeta}{letterbeta}
 
@@ -68,18 +69,18 @@ We must also thank him as the creator of \MF.
 \chapter{Changes}
 
 \begin{description}
-\item[v.~1.1] Lesson 4 on accents
+\item[v.~1.2] Lesson 5 and 6 on kerning and ligatures added.
+\item[v.~1.1] Lesson 4 on accents added.
 \item[v.~1.0] Chapter 3 on making simple fonts completed --- first public release.
 \item[v.~0.9] Beginning and end of chapter 2 streamlined.
 \item[v.~0.8] Chapter 2 taken from Christophe~Grandsire.
 \item[v.~0.7] Chapter 1 reworked.
 \item[v.~0.6] Chapter 1 modernized.
 \item[v.~0.5] Chapter 1 taken from Christophe~Grandsire.
-\item[v.~0.4] Preface stolen and Christophe~Grandsire and made boring.
+\item[v.~0.4] Preface stolen from Christophe~Grandsire and made boring.
 \item[v.~0.3] Appendix B from Christophe~Grandsire worked into chapter 0.
 \item[v.~0.2] Chapter 0 modernized.
 \item[v.~0.1] Chapter 0 taken from Christophe~Grandsire.
-\item[v.~0.0] Initial stucture of chapters.
 \end{description}
 
 \chapter{Preface}
@@ -1322,6 +1323,8 @@ Examples:
 \end{tabular}\\
 Function: Unit direction.
 
+\eject
+
 \noindent
 \hangindent 7 mm
 \textbf{\tt div} works with two numbers.\\
@@ -1448,6 +1451,8 @@ Examples:
 \verb|(4,6)|\\
 \end{tabular}\\
 Function: Shift or add.
+
+\eject
 
 \noindent
 \hangindent 7 mm
@@ -2849,6 +2854,747 @@ One solution to that is to make every character have the same width.
 Another is to have different accents.
 The better answer is handled in next lesson.
 
+\chapter{Kerning and Abugidas}
+
+In this lesson we will learn how to finesse the horizontal spacing of two characters.
+This can help with the accents of the prior lesson, but is also required for abugidas.
+
+\section{Introduction}
+
+Abugidas come is a few varieties but what makes an abugida is that there is a vowel added to a
+base character which changes the implied vowel to something else.
+In effect these vowels can almost feel like extra large accents with added complexities.
+They can often take some space, or not, depending on the vowel.
+They can also require specialized placement, depending on the consonant and vowel being combined.
+
+\section{Language}
+
+Rather than make a brand new language, we are going to extend our last one.
+This language will have two consonants: the character that looks like an o and a character that
+looks like an \i.
+It will have two vowels, the hat above and the curve below.
+
+Since I know that I have consonants and vowels here, I am going to take it one step further and
+assume that I know which consonants and vowels I have.
+The o character will be the sound of /b/, the \i\ character will be the sound of /d/.
+Both will have an implied vowel of a.
+The hat above will be the vowel of e, and the curve below will be the vowel of i.
+That means that even though I only have two visible vowels, I actually need three.
+
+\section{Glyphs}
+
+Let's take a look at the font as a whole.
+
+\begin{quote}
+\begin{tabular}{lcl}
+\texttt{iofont.mf}&---&The entire font.\\
+\texttt{io\_b.mf} &---&The /b/ character which looks like an o to us.\\
+\texttt{io\_d.mf} &---&The /d/ character which looks like an \i\ to us.\\
+\texttt{io\_a.mf} &---&An empty accent for the implied vowel.\\
+\texttt{io\_e.mf} &---&The e accent which looks like a hat.\\
+\texttt{io\_i.mf} &---&The i accent which sits below.\\
+\end{tabular}
+\end{quote}
+
+Let's build this up the reverse direction of how we built up our last font.
+That's probably not the correct way to do it, but there is a pedantic reason for doing that.
+
+\subsection{\texttt{io\_i.mf}}
+
+This is almost a copy of our low accent.
+Rather than have \texttt{-11u} in order to center the accent, we are only moving back \texttt{-7u}
+to that the right side of the accent aligns with the 0 width.
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-7u,-0.2h);
+    z2=(5u-7u,-0.1h);
+    z3=(7u-7u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{io\_e.mf}}
+
+This is almost a copy of our high accent.
+It has a similar change as our last character and for the same reason.
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-7u,0.9h);
+    z2=(5u-7u,   h);
+    z3=(7u-7u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{io\_a.mf}}
+
+For this accent we want to take no space and want to also not draw anything.
+So why did we bother?
+Because we want to be able to type things like "ba" and not have \TeX\ complain about an
+undefined character.
+\TeX\ is just as happy to not paint anything and not move as it is to paint and move.
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,0u#,cap_height#,0);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{io\_d.mf}}
+
+This is a brand new character, but should come as no surprise.
+It is thinner, but otherwise similar to the next letter.
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,3u#,cap_height#,0);
+    z1=( 0.5u+1u,0.0h);
+    z2=( 0.5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    labels(range 1 thru 2);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{io\_b.mf}}
+
+And this character is very familiar by now.
+
+\begin{quote}
+\begin{verbatim}
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 5);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{iofont.mf}}
+
+Now let's take a lookt at our primary font file.
+
+\begin{quote}
+\begin{verbatim}
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+% Our consonants
+
+"The letter B"; char_code:=hex "0042"; input io_b;
+"The letter D"; char_code:=hex "0044"; input io_d;
+"The letter b"; char_code:=hex "0062"; input io_b;
+"The letter d"; char_code:=hex "0064"; input io_d;
+
+% Our vowels
+
+"The letter A"; char_code:=hex "0041"; input io_a;
+"The letter E"; char_code:=hex "0045"; input io_e;
+"The letter I"; char_code:=hex "0049"; input io_i;
+"The letter a"; char_code:=hex "0061"; input io_a;
+"The letter e"; char_code:=hex "0065"; input io_e;
+"The letter i"; char_code:=hex "0069"; input io_i;
+
+ligtable "B" : "E" kern -0.5u,
+               "I" kern -0.5u,
+               "e" kern -0.5u,
+               "i" kern -0.5u;
+
+ligtable "D" : "E" kern 0.1u,
+               "I" kern 0u,
+               "e" kern 0.1u,
+               "i" kern 0u;
+
+ligtable "b" : "E" kern -0.5u,
+               "I" kern -0.5u,
+               "e" kern -0.5u,
+               "i" kern -0.5u;
+
+ligtable "d" : "E" kern 0.1u,
+               "I" kern 0.1u,
+               "e" kern 0.1u,
+               "i" kern 0.1u;
+
+end;
+\end{verbatim}
+\end{quote}
+
+Those uses of the command \texttt{ligtable} are new.
+A \texttt{ligtable} is a comma separated list of what to do with pairs of characters.
+The first pair is ``BE'' which causes a \texttt{kern} of -0.5u.
+So what is a \texttt{kern}?
+Kerning is a well established technique to help out when letters look just too far apart.
+The most obvious example is A{}V which is kerned to be AV.
+In our case we mean that this will add $-0.5u$ between the two letters --- remove $0.5u$ from between the two letters.
+So the accent will be placed $0.5u$ left of where it was designed to be instead of at the right-most edge.
+
+So how did I come up with these numbers?
+What in the \texttt{dvi} file shows you what these look like?
+Absolutely nothing.
+In order to come up with these numbers, I had to make a \TeX\ file and test them out.
+Here's the file to try it out with after you have created the fonts:
+
+\begin{quote}
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\iofont}{iofont}
+
+{\iofont
+ba
+
+be
+
+bi
+
+da
+
+de
+
+di
+}
+
+\end{document}
+\end{verbatim}
+\end{quote}
+
+I had a process to go through as I experimented with these numbers:
+
+\begin{quote}
+\begin{tabular}{rl}
+1.&Edit \texttt{iofont.mf};\\
+2.&Run \verb|mf '\mode=ljfour; mode_setup; input iofont.mf'|;\\
+3.&Run \texttt{gftopk iofont.600gf};\\
+4.&Run \TeX\ on \texttt{iofonttest.tex}; and\\
+5.&View the results.\\
+\end{tabular}
+\end{quote}
+
+Only after doing all that did I know if other adjustments were needed.
+Doing this can be a bit frustrating though.
+In order to see how it looked, I was zoomed in and you really start to notice that your
+\texttt{pdf} file is showing pictures and not full-fledged letters --- but that's a later lesson.
+
+So everything looks good, let's try adjusting our \texttt{iofonttest.tex} file to see running text
+instead of isolated letters.
+
+\begin{quote}
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\iofont}{iofont}
+
+{\iofont
+Ba be bi da de di
+}
+
+\end{document}
+\end{verbatim}
+\end{quote}
+
+What happened!
+We adjusted the accents so far to the left that they did not leave enough room for the base
+letters.
+One possible fix is to make those accents have \emph{some} space instead of a width of 0.
+Another possibility is to adjust the width of the base letters so they have space for the
+accents.
+Neither solution is very good, but $\ldots$
+
+\begin{exercise}
+Increase the width of some characters until they don't overlap.
+
+Having a \texttt{iofonttest.tex} file with lines of B followed by lines of Be will help you
+find the amount of space you need.
+\end{exercise}
+
+\section{Extras}
+
+In our own alphabet, certain letter combinations look like they are too far apart when in a word
+together.
+Compare:
+
+\begin{quote}
+\begin{tabular}{llll}
+A{}V&V{}A&W{}ord&W{}ay\\
+AV  &VA  &Word  &Way\\
+\end{tabular}
+\end{quote}
+
+In order to accomplish this there were letters where the edge of the letter stuck out past the
+past the base.
+So there was a ``W'' that had a full amount of space around it and another ``W'' with the right
+end hanging over so that the following ''a'' could be just a little closer.
+This overhang was called a \emph{kern} and the process of selecting these extra letters was
+called \emph{kerning}.
+Having little bits of metal hang off the edge makes for type that has to be re-purchased more
+often, but it does make for better looking documents so it is a cost many were willing to pay
+for.
+Go find some images of books from the 17$^{\rm th}$ or 18$^{\rm th}$ century.
+Take a look at some expensive ones like a highly regarded classic and also take a look at some of
+the cheaper ones as well.
+Now that you know about this, you will probably notice it.
+You are less likely to notice it in a modern book because almost all systems do this kerning
+automatically now.
+
+One way that \MF\ could have handled this would have been to exactly model the physical process.
+You could define a letter for ``W'' with it's full width and then defined a second letter with
+the exact same drawing instructions (just like our first alphabet) but with less width.
+This would then require the person who is working in \TeX\ to remember that there are two letters.
+Then the user of \TeX\ would have to remember to type ``\verb|Wh|'' normally and
+``\verb|\kernedW o|'' otherwise (or maybe ``\verb|\fullW h|'' and ``\verb|Wo|'').
+
+Instead, \MF\ has this table which tells \TeX\ ``if you want an W followed by an o then it will
+only take this much space, otherwise it takes this much space''.
+What \TeX\ effectively sees is two characters but you only have to define the shape once.
+
+So if this is called kerning, why is the command called \texttt{ligtable}?
+The command \texttt{ligtable} is short for \emph{ligature table}.
+
+When using physical type there are limits to how much you can kern.
+Some letter combinations require so much kerning to look good together that you can't actually
+kern them.
+In those cases, rather than have one kerned character, you would have a special character that put
+both letters together on one piece of lead.
+This special ``two-for-one'' piece of type was called a ligature.
+They were not as fragile as a kerned letter so they tended to be used even for less expensive
+books.
+Eventually the letter forms of certain ligatures were shaped differently to fit together even
+better.
+
+\begin{center}
+\begin{tabular}{ccc}
+{\Huge f{}i}&{\Huge f\kern -2pt i}&{\Huge fi}\\
+Normal&Kerned&Ligature\\
+\end{tabular}
+\end{center}
+
+Because of the physical limitations of kerning with lead type, accents would have been handled by
+ligatures instead.
+But with \MF\ we have no such limitations so we can even kern over the entire letter.
+
+This has almost turned into a preview for the next lesson, instead of just extra material, so
+let's move on.
+
+\chapter{Ligatures and Syllabaries}
+
+Ligatures let us use the twenty-six letters of our alphabet to access many more symbols.
+If you are making a syllabary, then this is the technique you need.
+Our font will consist of ligatures, which requires more glyphs that letters, and some rules that
+say ``when these two letters are next to eachother, then use this glyph instead.''
+And there is no need to limit yourself to just two.
+\TeX\ turns -{}-{}- into --- by building up a character ligature.
+So even though our syllabary will consist of very open syllables like \emph{ba} you can make
+syllabaries that combine as many letters as you want, assuming you have enough space.
+
+\section{Introduction}
+
+I mentioned in the lesson on alphabets that the difference between alphabets and ideographs was a
+question of quantity and not complexity.
+I also mentioned that ideographs required creating multiple fonts and switching between the fonts.
+But syllabaries exist somewhere between.
+There are more symbols in them than we generally have (easily) accessible from a
+keyboard.
+Ligatures will let you bypass this limitation and gain access of up to two-hundred-fifty-six
+unique symbols.
+Enough to invent a syllabary which is way too large.
+
+\section{Language}
+
+We are going to revisit our \texttt{iofont} but this time instead of using kerning, we will make
+unique glyphs for each of our letters.
+We are also going to introduce a new vowel of \emph{o} but not use an accent for it instead
+opting for a brand new shape.
+Since we can do this, we are also free to adjust the vertical spacing of our accents.
+
+\section{Glyphs}
+
+Let's take a look at the font as a whole.
+
+\begin{quote}
+\begin{tabular}{lclcl}
+\texttt{sylfont.mf}   &---&The entire font.\\
+\texttt{syl\_ba.mf}   &---&The /ba/ syllable&---&o.\\
+\texttt{syl\_be.mf}   &---&The /be/ syllable&---&o with a hat.\\
+\texttt{syl\_bi.mf}   &---&The /bi/ syllable&---&o with a chin.\\
+\texttt{syl\_bo.mf}   &---&The /bo/ syllable&---&v.\\
+\texttt{syl\_da.mf}   &---&The /da/ syllable&---&\i.\\
+\texttt{syl\_de.mf}   &---&The /de/ syllable&---&\i\ with a hat.\\
+\texttt{syl\_di.mf}   &---&The /di/ syllable&---&\i\ with a chin.\\
+\texttt{syl\_do.mf}   &---&The /do/ syllable&---&c.\\
+\texttt{syl\_empty.mf}&---&A placeholder.\\
+\end{tabular}
+\end{quote}
+
+Let's build this up in reverse direction to save the ligatures for last.
+Again, it's probably not the correct way to do it, but it does let us keep a little suspense.
+
+\subsection{\texttt{syl\_empty.mf}}
+
+A placeholder which should be remembered.
+
+\begin{quote}
+\begin{verbatim}
+"The empty symbol";
+beginchar(char_code,0u#,cap_height#,0);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_do.mf}}
+
+A unique character but the \MF\ code should be unsurprising.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable do";
+beginchar(char_code,7u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_di.mf}}
+
+Manually creating an accented character.
+We can actually stick to only \MF\ when working this out.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable di";
+beginchar(char_code,6u#,cap_height#,0);
+    z1=( 2u+1u,0.0h);
+    z2=( 2u+1u,0.8h);
+    z3=( 0u+1u,-0.2h);
+    z4=( 2u+1u,-0.1h);
+    z5=( 4u+1u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    draw z3..z4..z5;
+    labels(range 1 thru 5);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_de.mf}}
+
+Manually adding a hat.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable de";
+beginchar(char_code,6u#,cap_height#,0);
+    z1=( 2u+1u,0.0h);
+    z2=( 2u+1u,0.8h);
+    z3=( 0u+1u,0.9h);
+    z4=( 2u+1u,   h);
+    z5=( 4u+1u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    draw z3--z4--z5;
+    labels(range 1 thru 5);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_da.mf}}
+
+An old friend.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable da";
+beginchar(char_code,3u#,cap_height#,0);
+    z1=( 0.5u+1u,0.0h);
+    z2=( 0.5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    labels(range 1 thru 2);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_bo.mf}}
+
+Another unique letter.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable bo";
+beginchar(char_code,7u#,cap_height#,0);
+    z1=(0.0u+1u,0.8h);
+    z2=(2.5u+1u,0.0h);
+    z3=(5.0u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_bi.mf}}
+
+Manually adding a chin.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable bi";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    z5=( 3u+1u,-0.2h);
+    z6=( 5u+1u,-0.1h);
+    z7=( 7u+1u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    draw z5..z6..z7;
+    labels(range 1 thru 7);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_be.mf}}
+
+Manually adding a hat.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable be";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    z5=( 3u+1u,0.9h);
+    z6=( 5u+1u,   h);
+    z7=( 7u+1u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    draw z5--z6--z7;
+    labels(range 1 thru 7);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{syl\_ba.mf}}
+
+A very old friend.
+
+\begin{quote}
+\begin{verbatim}
+"The syllable ba";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 4);
+endchar;
+\end{verbatim}
+\end{quote}
+
+\subsection{\texttt{sylfont.mf}}
+
+Now let's finally have a look at the primary font file.
+
+\begin{quote}
+\begin{verbatim}
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+% Our consonants
+
+"The letter A"; char_code:=hex "0041"; input syl_empty;
+"The letter B"; char_code:=hex "0042"; input syl_ba;
+"The letter D"; char_code:=hex "0044"; input syl_da;
+"The letter E"; char_code:=hex "0045"; input syl_empty;
+"The letter I"; char_code:=hex "0049"; input syl_empty;
+"The letter O"; char_code:=hex "004F"; input syl_empty;
+"The letter a"; char_code:=hex "0061"; input syl_empty;
+"The letter b"; char_code:=hex "0062"; input syl_ba;
+"The letter d"; char_code:=hex "0064"; input syl_da;
+"The letter e"; char_code:=hex "0065"; input syl_empty;
+"The letter i"; char_code:=hex "0069"; input syl_empty;
+"The letter o"; char_code:=hex "006F"; input syl_empty;
+
+% Our syllables
+
+char_code:=hex "0080";
+input syl_ba; char_code:=char_code+1;
+input syl_be; char_code:=char_code+1;
+input syl_bi; char_code:=char_code+1;
+input syl_bo; char_code:=char_code+1;
+
+char_code:=hex "0090";
+input syl_da; char_code:=char_code+1;
+input syl_de; char_code:=char_code+1;
+input syl_di; char_code:=char_code+1;
+input syl_do; char_code:=char_code+1;
+
+ligtable "B" : "A"=:hex"0080", "E"=:hex"0081", "I"=:hex"0082", "O"=:hex"0083",
+               "a"=:hex"0080", "e"=:hex"0081", "i"=:hex"0082", "o"=:hex"0083";
+
+ligtable "D" : "A"=:hex"0090", "E"=:hex"0091", "I"=:hex"0092", "O"=:hex"0093",
+               "a"=:hex"0090", "e"=:hex"0091", "i"=:hex"0092", "o"=:hex"0093";
+
+ligtable "b" : "A"=:hex"0080", "E"=:hex"0091", "I"=:hex"0082", "O"=:hex"0083",
+               "a"=:hex"0080", "e"=:hex"0081", "i"=:hex"0082", "o"=:hex"0083";
+
+ligtable "d" : "A"=:hex"0090", "E"=:hex"0091", "I"=:hex"0092", "O"=:hex"0093",
+               "a"=:hex"0090", "e"=:hex"0091", "i"=:hex"0092", "o"=:hex"0093";
+
+ligtable hex"0082" : "a"=:hex"0081";
+
+end;
+\end{verbatim}
+\end{quote}
+
+This use of the \texttt{ligtable} command is new, but it matches much better with its name.
+In this case we are actually defining ligatures.
+So how does this work?
+You type the word \texttt{Bia} into your \TeX\ document because $\ldots$ you want to.
+\TeX\ asks the \texttt{tfm} file for the size of the box for the letter \emph{B}.
+The \texttt{tfm} file says that the width is the width provided by \texttt{syl\_ba.mf}.
+Then \TeX\ asks the \texttt{tfm} file for the size of the box for the letter \texttt{i}.
+The \texttt{tfm} file has a ligature table for \emph{B} and also confirms that there is an entry
+in that ligtable for \emph{i} and that the glyph to look if is found as character code \texttt{hex"0082"}
+that says that "Bi" means the glyph defined by \texttt{syl\_bi.mf}.
+So the \emph{B} is deleted (along with its box) and a new box is created for \texttt{hex"0082"}.
+Then \TeX\ asks the \texttt{tfm} file for the size of the box for the letter \texttt{a}.
+The character is currently \texttt{hex"0082"}, so the ligature table is checked for a
+\texttt{hex"0082"} (since we no longer have the \emph{B}) and finds that there is a ligtable for
+that character.
+This entry is checked for a value of \emph{a} and there is one, so the \texttt{hex"0082"} (along
+with its box) are removed and a new character is added for \texttt{hex"0081"}.
+After that there is no ligature table entry for \texttt{hex"0081"} so \TeX\ keeps moving along
+excited that more ligature work may be coming again.
+
+You have probably noticed that in addition to having an empty a character, I also define a
+charcter for a b all by itself even though my invented writing system does not have a way to write
+only a b.
+The empty character is to keep \TeX\ from complaining, the ``ba'' standing in for ``b'' is to
+stop \MF\ from complaining.
+In fact, if we are missing this character from the font, \MF\ will refuse to build the font
+because it is listed in the \texttt{ligtable}.
+
+Let's test this out.
+First we build the font:
+
+\begin{quote}
+\begin{verbatim}
+mf \mode=ljfour; mode_setup; input sylfont.mf
+\end{verbatim}
+\end{quote}
+
+Then here's the file to try it out with after you have created the fonts:
+
+\begin{quote}
+\begin{verbatim}
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\sylfont}{sylfont}
+
+{\sylfont ba be bi bo da de di do bia }
+
+\end{document}
+\end{verbatim}
+\end{quote}
+
+\section{Extras}
+
+I mentioned at the beginning of this lesson that you can combine as many letters as you want,
+\emph{assuming you have enough space}.
+\MF\ still limits you to two-hundred-fifty-six glyphs so if your allowable syllables includes
+\emph{springs} you will probably run out of available glyph locations.
+
+\subsection{Multiple fonts}
+
+One way to address that is to have multiple fonts.
+The downside to that is that you can't just type it.
+Instead of typing \emph{springs} you have to type \verb|{\fontpartc\char"4B}|, which can be made
+to look nice when printed but is really painful to handle properly and requires extremely tedious
+proofreading.
+If you really want this many letters, then you probably want to continue with the lessons.
+
+But, wait a second $\ldots$
+
+Why am I writing \MF\ code like \verb|char_code := hex "0040";|?
+Why not just \verb|char_code| \verb|:= hex "40";|?
+
+Try out using numbers like \texttt{hex "0123"} and \texttt{hex "1234"} and you will find that
+\MF\ turns these into 35 (hex ``23'') and 52 (hex ``34'').
+So using four digits provides no harm, but I want to be ready for the future.
+
+\subsection{Advanced ligatures}
+
+We have only used the most basic of ligatures available.
+\MF\ actually allows for quite a bit of ligature replacements.
+
+\begin{center}
+\begin{tabular}{lr@{}c@{}llll}
+\texttt{a: b}&          &\texttt{=:}&            &\texttt{c;}&``ab'' becomes ``c''  &process c next\\
+\texttt{a: b}&\texttt{|}&\texttt{=:}&            &\texttt{c;}&``ab'' becomes ``ac'' &process a next\\
+\texttt{a: b}&\texttt{|}&\texttt{=:}&\texttt{>}  &\texttt{c;}&``ab'' becomes ''ac'' &process c next\\
+\texttt{a: b}&          &\texttt{=:}&\texttt{|}  &\texttt{c;}&``ab'' becomes ``cb'' &process c next\\
+\texttt{a: b}&          &\texttt{=:}&\texttt{|>} &\texttt{c;}&``ab'' becomes ``cb'' &process b next\\
+\texttt{a: b}&\texttt{|}&\texttt{=:}&\texttt{|}  &\texttt{c;}&``ab'' becomes ``acb''&process a next\\
+\texttt{a: b}&\texttt{|}&\texttt{=:}&\texttt{|>} &\texttt{c;}&``ab'' becomes ``acb''&process c next\\
+\texttt{a: b}&\texttt{|}&\texttt{=:}&\texttt{|>>}&\texttt{c;}&``ab'' becomes ``acb''&process b next\\
+\end{tabular}
+\end{center}
+
+What does ``process $n$'' mean?
+That first one is the one we used before for the syllable of \texttt{bia}.
+When we typed ``bi'' it became ``syl\_bi'' and then \TeX\ looked at the ``syl\_bi'' table to see
+that ``syl\_bia'' also needed to be replaced.
+
+For the next one we could have ``ab'' turn into ``ac'', and then \TeX\ would check the ``a''
+table again in order to see if ``ac'' should be replaced with something new.
+
+For the third one we could also have ``ab'' turn into ``ac'', but then \TeX\ would consider the
+``a'' fully accepted and would now start looking at the ``c'' table to see what to replace next.
+
+This is also why the last type has three different versions.
+Should \TeX\ reprocess the entire thing, consider ``a'' fully accepted, or consider ``ab'' fully
+accepted?
+
+These rules can be fun to play with, but I must admit that our use of the \texttt{ligtable}
+command has come to an end.
+Really I just wanted you to become comfortable with the idea of kerning and ligatures.
+They way we will actually do this for final fonts is a bit different.
+
 \chapter{From \MF\ to Modern Fonts}
 
 So it's quite wonderful that we have these fonts that we can use in \TeX, but how do we share
@@ -2866,7 +3612,9 @@ But Computer Modern wasn't just the base for Computer Concrete.
 Thanks to the huge amount of meta-ness in Computer Modern, Computer Concrete was the same font
 with different parameters.
 Computer Modern was so meta and could be used to make so many fonts that one almost wonders why
-anyone ever made any fonts.
+anyone ever bothered to make any fonts.
+Just find the correct parameters, feed \MF\ Computer Modern, and you have a new font.
+made any fonts.
 Fonts were made, but never to the level that Knuth made his fonts unless someone was extending
 Computer Modern to support additional letters.
 
@@ -2876,7 +3624,13 @@ What they could do is allow someone to make a document that was \emph{nicer} tha
 using a typewriter.
 Digital fonts were created, simple pixel based images that people could make on their own to get
 the exact effect they wanted as long as they were willing to make a new font for every device
+(and display size, and magnification, and style, and $\ldots$), suddenly fonts aren't so nice.
 
+Then vector fonts were created!
+Suddenly, you didn't need separate fonts for different display sizes.\footnote{In good typography
+you still need different fonts for different display sizes, but many people assumed you did not.}
+You now only needed one font for every device!
+And \MF\ was be perfect for this because it is already describing fonts as lines instead of as
 \immediate\closeout\mfanswers
 
 \appendix
@@ -2884,6 +3638,5 @@ the exact effect they wanted as long as they were willing to make a new font for
 \input{mf4clans.tex}
 
 \include{mfgfdl}
-\end{document}
 
 \end{document}
