@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 7: From METAFONT to Modern Fonts</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-7">
+			<h2 epub:type="title">Lesson 7: From METAFONT to Modern Fonts</h2>
+			<p>So it’s quite wonderful that we have these fonts that we can use in TeX, but how do we share these fonts with others, or even use these fonts in places outside of the world of TeX?</p>
+			<section id="section-7-1">
+				<h3 epub:type="title">Back to History</h3>
+				<p>Remember way back in the preface that I stole from Christophe Grandsire we talked about the history of METAFONT? Now we are going to talk about the history of METAFONT since then.</p>
+				<p>In that preface I mentioned in passing that Computer Modern “served as the base for other font families like Computer Concrete.” But Computer Modern wasn’t just the base for Computer Concrete. Thanks to the huge amount of meta-ness in Computer Modern, Computer Concrete was the same font with different parameters. Computer Modern was so meta and could be used to make so many fonts that one almost wonders why anyone ever bothered to make any fonts. Just find the correct parameters, feed METAFONT Computer Modern, and you have a new font. Fonts were made, but never to the level that Knuth made his fonts unless someone was extending Computer Modern to support additional letters.</p>
+				<p>During the 1980s the personal computer became much more common. But these early home computers could not actually run something like METAFONT and/or TeX. What they could do is allow someone to make a document that was <em>nicer</em> than just using a using a typewriter. Digital fonts were created, simple pixel based images that people could make on their own to get the exact effect they wanted as long as they were willing to make a new font for every device (and display size, and magnification, and style, and⁠ ⁠…), suddenly fonts aren’t so nice.</p>
+				<p>Then vector fonts were created!</p>
+				<p>Suddenly, you didn’t need separate fonts for different display sizes. Well⁠ ⁠… in good typography you still need different fonts for different display sizes, but many people assumed you did not so it was generally ignored.</p>
+				<p>You now only needed one font and had them for every device! And METAFONT would be perfect for this because it is already describing fonts as lines instead of as dots. So what didn’t happen?</p>
+				<p>Simply put METAFONT did not support the workflow of type designers.</p>
+				<p>Most type designers did not dream of equations that would make beautiful letters and then check the results⁠—they drew shapes that made beautiful letters and asked a computer to turn that into an equation. METAFONT worked backwards of the way type designers work.</p>
+				<p>And yet I feel like there might have been just a little more to it.</p>
+				<p>I mentioned in an earlier lesson that Knuth had invented <em>all</em> the fonts. This is debatable. Certainly if you wanted something like a typical typeface you would see in a technical manual, all you needed was a few parameters and you were done. This is based on the theory that there is a base model for each and every letter and typefaces are just variations on that model. That works amazingly well but it is not always true. Type designers know this and aren’t trying to figure out how their letter varies from the model but trying to make a shape which is also a legible letter.</p>
+				<p>Knuth both gave them full creativity and took all the creativity away.</p>
+				<hr/>
+				<p>So why did I take you all the way through using METAFONT if it’s not good for font design?!</p>
+				<p>If you happen to be a professional font designer, then I have truly wasted your time; but I wonder why you were looking around for a document about making fonts for a conlang if you already have the tools.</p>
+				<p>For those of us who are not professionals, experimenting with shapes is so much easier with METAFONT than any easily available type design software.</p>
+				<p>You can literall say “How would I draw this using a pen (or pantbrush, or stylus),” try it out and see what happens.</p>
+				<p><em>After</em> you have shapes that you like, <em>then</em> you can go into the type design and smooth out all the wrinkles.</p>
+				<p>The base assumpiton of a type design system is that the amonut of experimentation is minimal⁠—an E can only be changed so much before it no longer is an E. But the base assumption of these lessons is that the amount of experimentation is maximal⁠—you don’t even know how many letters to have or any idea what they should look like. A D can only be played with so much before it starts looking like a very open B, but that's because we have a letter B. Without that you have much more freedom. If you are designing a brand new writing system, no one yet knows how far you can push it.</p>
+				<p>After things settle down you can, and maybe even should, come back and make them into modern fonts. If you change your mind about a particular letter or need to add another one, then all of your history of experimenting will still be here and available for you to go through.</p>
+				<p>When many conlangers invent new words, they don’t just come up with a word but come up with the historical form of the word and send it through all the steps that the other words went through. Usually because “it makes your language sound much more like a natural language” or something similar. Your writing system should be no different! I think you should keep all those experiments around and watch your letters change over time.</p>
+			</section>
+			<section id="section-7-2">
+				<h3 epub:type="title">From History to the Future</h3>
+				<p>When I first started on this project I figured that there had to be a program that would turn these lines into a font. After all they are both vectors!</p>
+				<p>And tools that take you through the process of moving <code>gf</code> files into a vector <code>ttf</code> files do exist but it really isn’t a tool <em>per se</em>, but a set of tools which can be organized to get you through each and every step.</p>
+				<p>Not that there’s anything wrong with that but it really doesn’t start with a <code>gf</code> file and spit out an <code>otf</code> file.</p>
+				<p>The current state of the tools I could find were designed to be used <em>once</em> and only to convert <em>Computer Modern</em> in a process that was very fragile to set up and use.</p>
+				<p>Given <em>enough</em> time even I could make a tool which would turn a <code>gf</code> file into an <code>otf</code> file, but I don’t think you want to wait that long.</p>
+				<p>Given slightly less time, I might be able to modify existing systems to be usable; but not even I want to wait that long!</p>
+				<p>I even admit that one of the reasons that this update took so long is that I was attempting it.</p>
+				<p>So that’s the future. What do we do until then.</p>
+			</section>
+			<section id="section-7-3">
+				<h3 epub:type="title">Back to the Present</h3>
+				<p>So what do we do until then? We rely upon <em>Font Forge</em>. Go search, download, and install <em>Font Forge</em> and ask it to open your <code>mf</code> file.</p>
+				<p>If you have completely installed all your font file for TeX to use, then <em>Font Forge</em> will attempt to compile your <code>mf</code> file and turn it into a vector font.</p>
+				<p>Of course, for many of these fonts we didn’t actually do that. You can get by with manually copy and pasting code instead of using the <code>input</code> command but even then we have issues.</p>
+				<p>I tried this will all of the fonts here and they sometimes worked and sometimes didn’t. The <code>ofont</code> opened beautifully (if a little thin) but the <code>iofont</code> (which has the exact same code for creating a circle as <code>ofont</code>) gave me shapes that looked like an 8! Of course, anything I say about a program under constant development may be completely out of date by the time you read it, so it may be worth trying.</p>
+				<p>If that doesn’t work, then open <em>Font Forge</em> with one of your <code>gf</code> files. I find the design version with the highest resolution seems to work best.</p>
+				<p>This will create a new font that looks like it is completely empty. Please don’t panic yet.</p>
+				<p>There are two issues here. This first is that <em>Font Forge</em> and TeX seem to have a disagreement about reasonable size.</p>
+				<p>The second is that <em>Font Forge</em> pulled in all the images as background images to help you model the letters but provided no vector information.</p>
+				<p>Let’s fix the size issue first. Under the <em>Element</em> menu should be an item for <em>Font Info⁠ ⁠…</em>.</p>
+				<p>On the left should be a <em>General</em> item. Select it.</p>
+				<p>On the right should now be an item that specifies the <em>Em Size</em> and it’s probably something like 1000.</p>
+				<p>To the right of that is a checkbox that says <em>Scale Outlines</em> which you should <em>un</em>check.</p>
+				<p>Then change the number. I find 50 seems to work well. Then click OK and all the background images will be bigger. Now go back to through the <em>Element</em> to the <em>General</em> settings again.</p>
+				<p>This time make sure that the checkbox is checked and change the number back to 1000. You now have images for the size that <code>otf</code> files expect.</p>
+				<p>Go ahead and check the fonts I have in this <code>epub</code> and you will find that I did <em>not</em> do that but exporting fonts is slightly easier if you do and you will probably be exporting them multiple time while I only had to export them once.</p>
+				<p>Now you need to get the encoding the way you want it to be in your final font.</p>
+				<p>Under the <em>Encoding</em> menu is a submenu for <em>Force Encoding</em>. You want to select at least <em>ISO 8859-1 (Latin1)</em>. If you are planning on combining multiple fonts into one <code>otf</code> file then you, instead, want <em>ISO 10646-1 (Unicode,BMP)</em> ore even <em>ISO10646-1 (Unicode, Full)</em>. The Full version has more characters but less support, though the amount of support increases every year.</p>
+				<p>Click on the first character in your font. That character should turn yellow. Hold down a shift key and use the down arrow and right arrow keys until all of your characters are selected, and yellow. Open the <em>Elements menu</em> and select <em>Autotrace</em>.</p>
+				<p>All your characters should now appear! You may need to make some adjustments, especially for the smaller glyphs, but you should now have vectors that approximate the images.</p>
+			</section>
+			<section id="section-7-4">
+				<h3 epub:type="title">Making the Font</h3>
+				<p>The font is actually created by Generating the font, as found under the <em>File</em> menu.</p>
+				<p>Once that is complete we can use TeX again to test it without installing the font into our system.</p>
+				<p>Copy the generated font file into the same directory as a TeX file you will be making here.</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\usepackage{fontspec}
+
+\begin{document}
+
+Here is my font:
+
+{
+ \setmainfont{myfont.otf}
+ Testing out my font!
+}
+
+I hope it looked good.
+
+\end{document}
+					</pre>
+				</blockquote>
+				<p>You will have to use XeLaTeX for this to process correctly.</p>
+				<p>The <code>fontspec</code> let’s you do all sorts of cool things but only works for XeTeX and XeLaTeX.</p>
+			</section>
+			<section id="section-7-5">
+				<h3 epub:type="title">Why Don’t My Accents and Ligatures Work Anymore?</h3>
+				<p>Yes, that’s right. We lost all of our accent and ligature work that showed up so well in TeX.</p>
+				<p>So why did I bother?</p>
+				<p>I had two reasons.</p>
+				<p>The felt like if I didn’t then I would be required to talk about all of that here anyway and thought that smaller chunks of text would be better.</p>
+				<p>The second is that I <em>still</em> believe the experimentation of METAFONT is better when designing a new writing system.</p>
+			</section>
+			<section id="section-7-6">
+				<h3 epub:type="title">So How Do I Add Accents in Font Forge?</h3>
+				<p>First we need to understand about anchor points.</p>
+				<p>An anchor point is a point on or around a character which serves as a placement point for two or more glyphs.</p>
+				<p>That is, if both glyphs have a matching anchor point then that is where they overlap to create a new combined glyph.</p>
+				<p>Font Forge assumes that your accents will not be random but there will be different types, or classes, of accents. Accents that go over a character, accents that go under a character, accents that attach to the right of a character,⁠ ⁠…</p>
+				<p>So first we have to declare which type of accent we are trying to add.</p>
+				<p>Open your <code>sfd</code> file with Font Forge and select Font Info under the Element menu.</p>
+				<p>In that dialog find the Lookups and then the GPOS tables.</p>
+				<p>Now click on Add Lookup.</p>
+				<p>The type you want is called a Mark to Base Position which means we are creating a mark relative to a base position.</p>
+				<p>Click OK and you should have a new mark positioning table, click on that lookup and then click Add Subtable.</p>
+				<p>Next to the text that says <code>&lt;New&gt;</code> is a small button to click.</p>
+				<p>Create a new Mark Positioning subtable and give it a useful name, like topright, that describes how this accent in placed.</p>
+				<p>Once all of that is done, then go get the glyph you want to add the accent mark to and right-click.</p>
+				<p>Add anchor should now be a choice. Add the anchor and move it around.</p>
+				<p>Now go get the accent glyph and add the same anchor point.</p>
+				<p>Once you have defined a bunch of accents you can test to see how all accents of a given class look all at once.</p>
+				<p>Go back to the Element, Font Info, Lookups, GPOS, and edit a subtable.</p>
+				<p>Try out the Anchor Control button.</p>
+				<p>If you select a base glyph, you will see how all the accents look and adjust the anchor point.</p>
+			</section>
+			<section id="section-7-7">
+				<h3 epub:type="title">What About Kerning?</h3>
+				<p>Go back to the lookup tables.</p>
+				<p>This time we are creating a GPOS table.</p>
+				<p>We are creating a Pair Positioning (kerning) table.</p>
+				<p>Create a new class and you will see that you can add one or more characters in the first char and second char.</p>
+				<p>These groups of characters will be characters with overall similar outlines. O and A would not be a good grouping but V and W would.</p>
+				<p>You then play with the numbers while seeing a display of it until you are happy with the results.</p>
+			</section>
+			<section id="section-7-8">
+				<h3 epub:type="title">Adding a Ligature</h3>
+				<p>The first step to creating a ligature is to create a brand new glyph, but that should be easy since we already had to do that in METAFONT.</p>
+				<p>Go back to the lookup tables.</p>
+				<p>Create a new subtable but this time make a Ligature Substitution subtable.</p>
+				<p>Now go back to the subtable and open the subtable to see a list of glyphs and source glyphs.</p>
+				<p>In the glyph enter the name of the glyph that the ligature becomes.</p>
+				<p>In the source glyph, add in the list of names of glyphs that the ligature comes from with spaces between.</p>
+				<p>You do not have to build up the ligatures like you did for METAFONT. The source ligatures can have three, or more, characters and they will work.</p>
+				<p>At this point I hope you agree about how much I would have had to cover. This is already quite a bit and probably requires a few read-throughs or extra tutorials on the web.</p>
+			</section>
+			<section id="section-7-9">
+				<h3 epub:type="title">Moving Forward</h3>
+				<p>As your font continues to develop and expand you still have to go through a lot of these steps but you can make it a little less daunting.</p>
+				<p>First, keep your <code>sfd</code> around, then you don’t have to copy everything.</p>
+				<p>Then, only copy over the new or changed characters.</p>
+				<p>Next, update your kerning for that character.</p>
+			</section>
+			<section id="section-7-10">
+				<h3 epub:type="title">Farther Afield</h3>
+				<p>I feel like I <em>should</em> lay out what I think my future plans might be but it’s too likely to change at this point. In brief my idea so far is to:</p>
+				<ul>
+					<li><p>Recreate the process used to make Computer Modern a <code>ttf</code>.</p></li>
+					<li><p>Create a command line utility that will take one <code>gf</code> and lay it out in a similar way.</p></li>
+					<li><p>Update the process to generate <code>otf</code> files.</p></li>
+					<li><p>Maybe even take apart the <code>tfm</code> file and get the kerning information into the <code>otf</code> file as well.</p></li>
+				</ul>
+				<p>I think it would be nice to eventually do a vector to vector conversion, but the truth is that METAFONT is much more capable than <code>otf</code> files are.</p>
+				<p>Applying a circle, or a pair of second order equations, across a line which is a second order equation means that a straightforward conversion would require a sixth order equation.</p>
+				<p>For performance, <code>otf</code> only handles third order equations, <code>ttf</code> files only support second order equations, and many <code>otf</code> files only use second order equations.</p>
+				<p>It <em>is true</em> any glyphs can be made with only second order equations, just like you <em>can</em> use a pair of second order equations to match a third order equation.</p>
+				<p>But, to my knowledge, there isn’t a program which can make a straightforward conversion of higher order equations to lower order equations. Probably something to do with using calculus to find inflection points and then doing some curve fitting.</p>
+			</section>
+		</section>
+	</body>
+</html>

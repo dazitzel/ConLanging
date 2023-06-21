@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 5: Kerning and Abugidas</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-5">
+			<h2 epub:type="title">Lesson 5: Kerning and Abugidas</h2>
+			<p>In this lesson we will learn how to finesse the horizontal spacing of two characters. This can help with the accents of the prior lesson, but is also required for abugidas.</p>
+			<section id="chapter-5-1">
+				<h3 epub:type="title">Introduction</h3>
+				<p>Abugidas come is a few varieties but what makes an abugida is that there is a vowel added to a base character which changes the implied vowel to something else. In effect these vowels can almost feel like extra large accents with added complexities. They can often take some space, or not, depending on the vowel. They can also require specialized placement, depending on the consonant and vowel being combined.</p>
+			</section>
+			<section id="chapter-5-2">
+				<h3 epub:type="title">Language</h3>
+				<p>Rather than make a brand new language, we are going to extend our last one. This language will have two consonants: the character that looks like an o and a character that looks like an ı. It will have two vowels, the hat above and the curve below.</p>
+				<p>Since I know that I have consonants and vowels here, I am going to take it one step further and assume that I know which consonants and vowels I have. The o character will be the sound of /b/, the \i\ character will be the sound of /d/. Both will have an implied vowel of /a/. The hat above will be the vowel of /e/, and the curve below will be the vowel of /i/. That means that even though I only have two visible vowels, I actually need three.</p>
+			</section>
+			<section id="chapter-5-3">
+				<h3 epub:type="title">Glyphs</h3>
+				<p>Let’s take a look at the font as a whole.</p>
+				<blockquote>
+					<table border="1">
+						<tbody>
+							<tr><td><code>iofont.mf</code></td><td>—</td><td>The entire font.</td></tr>
+							<tr><td><code>io_b.mf </code></td><td>—</td><td>The /b/ character which looks like an \o\ to us.</td></tr>
+							<tr><td><code>io_d.mf </code></td><td>—</td><td>The /d/ character which looks like an \i\ to us.</td></tr>
+							<tr><td><code>io_a.mf </code></td><td>—</td><td>An empty accent for the implied /a/ vowel.</td></tr>
+							<tr><td><code>io_e.mf </code></td><td>—</td><td>The /e/ accent which looks like a hat.</td></tr>
+							<tr><td><code>io_i.mf </code></td><td>—</td><td>The /i/ accent which sits below.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>Let’s build this up the reverse direction of how we built up our last font. That’s probably not the correct way to do it, but there is a pedantic reason for doing that.</p>
+				<section id="chapter-5-3-1">
+					<h4 epub:type="title"><code>io_i.mf</code></h4>
+					<p>This is almost a copy of our low accent. Rather than have <code>-11u</code> in order to center the accent, we are only moving back <code>-7u</code> to that the right side of the accent aligns with the 0 width. That is, we are still going back and writing our accent over the prior character but we are only moving back the minimum needed to go back.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-7u,-0.2h);
+    z2=(5u-7u,-0.1h);
+    z3=(7u-7u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-5-3-2">
+					<h4 epub:type="title"><code>io_e.mf</code></h4>
+					<p>This is almost a copy of our high accent. It has a similar change as our last character and for the same reason.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-7u,0.9h);
+    z2=(5u-7u,   h);
+    z3=(7u-7u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-5-3-3">
+					<h4 epub:type="title"><code>io_a.mf</code></h4>
+					<p>For this accent we want to take no space and want to also not draw anything. So why did we bother? Because we want to be able to type things like “ba” and not have \TeX\ complain about an undefined character. TeX is just as happy to not paint anything and not move as it is to paint and move.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-5-3-4">
+					<h4 epub:type="title"><code>io_d.mf</code></h4>
+					<p>This is a brand new character, but should come as no surprise. It is thinner, but otherwise similar to the next letter.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,3u#,cap_height#,0);
+    z1=( 0.5u+1u,0.0h);
+    z2=( 0.5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    labels(range 1 thru 2);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-5-3-5">
+					<h4 epub:type="title"><code>id_b.mf</code></h4>
+					<p>And this character is very familiar by now.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 5);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-5-3-6">
+					<h4 epub:type="title"><code>iofont.mf</code></h4>
+					<p>Now let’s take a lookt at our primary font file.</p>
+					<blockquote>
+						<pre>
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+% Our consonants
+
+"The letter B"; char_code:=hex "0042"; input io_b;
+"The letter D"; char_code:=hex "0044"; input io_d;
+"The letter b"; char_code:=hex "0062"; input io_b;
+"The letter d"; char_code:=hex "0064"; input io_d;
+
+% Our vowels
+
+"The letter A"; char_code:=hex "0041"; input io_a;
+"The letter E"; char_code:=hex "0045"; input io_e;
+"The letter I"; char_code:=hex "0049"; input io_i;
+"The letter a"; char_code:=hex "0061"; input io_a;
+"The letter e"; char_code:=hex "0065"; input io_e;
+"The letter i"; char_code:=hex "0069"; input io_i;
+
+ligtable "B" : "E" kern -0.5u,
+               "I" kern -0.5u,
+               "e" kern -0.5u,
+               "i" kern -0.5u;
+
+ligtable "D" : "E" kern 0.1u,
+               "I" kern 0u,
+               "e" kern 0.1u,
+               "i" kern 0u;
+
+ligtable "b" : "E" kern -0.5u,
+               "I" kern -0.5u,
+               "e" kern -0.5u,
+               "i" kern -0.5u;
+
+ligtable "d" : "E" kern 0.1u,
+               "I" kern 0.1u,
+               "e" kern 0.1u,
+               "i" kern 0.1u;
+
+end;
+						</pre>
+					</blockquote>
+				</section>
+				<p>Those uses of the command <code>ligtable</code> are new. A <code>ligtable</code> is a comma separated list of what to do with pairs of characters. The first pair is “BE” which causes a <code>kern</code> of −0.5u. So what is a <code>kern</code>? Kerning is a well established technique to help out when letters look just too far apart. The most obvious example is AV which is kerned in many fonts to be just a little closer so that the left side of the V sticks past the right side of the A. In our case we mean that this will add −0.5u between the two letters⁠— remove 0.5u from between the two letters. So the accent will be placed 0.5u left of where it was designed to be instead of at the right-most edge.</p>
+				<p>So how did I come up with these numbers? What in the <code>dvi</code> file shows you what these look like? Absolutely nothing. In order to come up with these numbers, I had to make a TeX file and test them out. Here’s the <code>iotest.tex</code> file to try it out with after you have created the fonts:</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\iofont}{iofont}
+
+{\iofont
+ba
+
+be
+
+bi
+
+da
+
+de
+
+di
+}
+
+\end{document}
+					</pre>
+				</blockquote>
+				<p>I had a process to go through as I experimented with these numbers:</p>
+				<ol>
+					<li><p>Edit <code>iofont.mf</code>;</p></li>
+					<li><p>Run <code>mf '\mode=ljfour; mode_setup; input iofont.mf'</code>;</p></li>
+					<li><p>Run <code>gftopk iofont.600gf</code>;</p></li>
+					<li><p>Run <code>xelatex iotest.tex</code>; and</p></li>
+					<li><p>View the results.</p></li>
+				</ol>
+				<p>Only after doing all that did I know if other adjustments were needed. Doing this can be a bit frustrating though. In order to see how it looked, I was zoomed in and you really start to notice that your <code>pdf</code> file is showing pictures of letters and not full-fledged letters⁠— but that’s a later lesson.</p>
+				<p><img alt="Part of iotest.tex." src="../images/iotest.png"/></p>
+				<p>So everything looks good, let’s try adjusting our <code>iofonttest.tex</code> file to see running text instead of isolated letters.</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\iofont}{iofont}
+
+{\iofont
+Ba be bi da de di
+}
+
+\end{document}
+					</pre>
+				</blockquote>
+				<p>What happened! We adjusted the accents so far to the left that they did not leave enough room for the base letters. One possible fix is to make those accents have <em>some</em> space instead of a width of 0. Another possibility is to adjust the width of the base letters so they have space for the accents. Neither solution is very good, but⁠ ⁠…</p>
+				<p><strong>Exercise 13</strong>: Increase the width of some characters until they don’t overlap.</p>
+				<p>Having a <code>iofonttest.tex</code> file with lines of B followed by lines of Be will help you find the amount of space you need.</p>
+			</section>
+			<section id="chapter-5-4">
+				<h3 epub:type="title">Extras</h3>
+				<p>In our own alphabet, certain letter combinations look like they are too far apart when in a word together as often seen in monospaced fonts. Compare:</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr>
+								<td><img alt="AV without kerning." src="../images/avnokern.png"/></td>
+								<td><img alt="VA without kerning." src="../images/vanokern.png"/></td>
+								<td><img alt="Word without kerning." src="../images/wordnokern.png"/></td>
+								<td><img alt="Way without kerning." src="../images/waynokern.png"/></td>
+							</tr>
+							<tr>
+								<td><img alt="AV with kerning." src="../images/avkern.png"/></td>
+								<td><img alt="VA with kerning." src="../images/vakern.png"/></td>
+								<td><img alt="Word with kerning." src="../images/wordkern.png"/></td>
+								<td><img alt="Way with kerning." src="../images/waykern.png"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>In order to accomplish this there were letters where the edge of the letter stuck out past the base. So there was a “W” that had a full amount of space around it and another “W” with the right end hanging over so that the following “a” could be just a little closer. This overhang was called a <em>kern</em> and the process of selecting these extra letters was called <em>kerning</em>. Having little bits of metal hang off the edge makes for type that has to be re-purchased more often, but it does make for better looking documents so it is a cost many were willing to pay for. Go find some images of books from the 17<sup>th</sup> or 18<sup>th</sup> century. Take a look at some expensive ones like a highly regarded classic and also take a look at some of the cheaper ones as well. Now that you know about this, you will probably notice it. You are less likely to notice it in a modern book because almost all systems do this kerning automatically now.</p>
+				<p>One way that METAFONT could have handled this would have been to exactly model the physical process. You could define a letter for “W” with it’s full width and then defined a second letter with the exact same drawing instructions (just like our first alphabet) but with less width. This would then require the person who is working in TeX to remember that there are two letters. Then the user of TeX would have to remember to type “<code>W</code>” normally and “<code>\kernedW o</code>” otherwise (or maybe “<code>\fullW </code>” and “<code>Wo</code>”).</p>
+				<p>Instead, METAFONT has this table which tells TeX “if you want an W followed by an o then it will only take this much space, otherwise it takes this much space.” What TeX effectively sees is two characters but you only have to define the shape once.</p>
+				<p>So if this is called kerning, why is the command called <code>ligtable</code>? The command <code>ligtable</code> is short for <em>ligature table</em>.</p>
+				<p>When using physical type there are limits to how much you can kern. Some letter combinations require so much kerning to look good together that you can’t actually kern them. In those cases, rather than have one kerned character, you would have a special character that put both letters together on one piece of lead. This special “two-for-one” piece of type was called a ligature. They were not as fragile as a kerned letter so they tended to be used even for less expensive books. Eventually the letter forms of certain ligatures were shaped differently to fit together even better.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr>
+								<td><img alt="fi without kerning." src="../images/finokern.png"/></td>
+								<td><img alt="fi with kerning." src="../images/fikern.png"/></td>
+								<td><img alt="fi ligature." src="../images/filigature.png"/></td>
+							</tr>
+							<tr>
+								<td>Normal</td>
+								<td>Kerned</td>
+								<td>Ligature</td>
+							</tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>Because of the physical limitations of kerning with lead type, accents would have been handled by ligatures exclusively⁠—and we will get there⁠—but with METAFONT we have no such limitations so we can even kern over the entire letter.</p>
+				<p>This has almost turned into a preview for the next lesson, instead of just extra material, so let’s move on.</p>
+			</section>
+		</section>
+	</body>
+</html>

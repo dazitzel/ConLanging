@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 6: Ligatures and Syllabaries</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-6">
+			<h2 epub:type="title">Lesson 6: Ligatures and Syllabaries</h2>
+			<p>Ligatures let us use the twenty-six letters of our alphabet to access many more symbols. If you are making a syllabary, then this is the technique you need. Our font will consist of ligatures, which requires more glyphs that letters, and some rules that say “when these two letters are next to eachother, then use this glyph instead.” And there is no need to limit yourself to just two. TeX turns⁠<code>---</code> into⁠—by building up a character ligature. So even though our syllabary will consist of very open syllables like <em>ba</em> you can make syllabaries that combine as many letters as you want, assuming you have enough space.</p>
+			<section id="chapter-6-1">
+				<h3 epub:type="title">Introduction</h3>
+				<p>I mentioned in the lesson on alphabets that the difference between alphabets and ideographs was a question of quantity and not complexity. I also mentioned that ideographs required creating multiple fonts and switching between the fonts. But syllabaries exist somewhere between. There are more symbols in them than we generally have <em>easily</em> accessible from a keyboard. Ligatures will let you bypass this limitation and gain access of up to two-hundred-fifty-six unique symbols. Enough to invent a syllabary which is way too large.</p>
+			</section>
+			<section id="chapter-6-2">
+				<h3 epub:type="title">Language</h3>
+				<p>We are going to revisit our <code>iofont</code> but this time instead of using kerning, we will make unique glyphs for each of our letters. We are also going to introduce a new vowel of <em>o</em> but not use an accent for it instead opting for a brand new shape. Since we can do this, we are also free to adjust the vertical spacing of our accents.</p>
+			</section>
+			<section id="chapter-6-3">
+				<h3 epub:type="title">Glyphs</h3>
+				<p>Let’s take a look at the font as a whole.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><code>sylfont.mf </code></td><td>—</td><td colspan="3">The entire font.</td></tr>
+							<tr><td><code>syl_ba.mf </code></td><td>—</td><td>The /ba/ syllable</td><td>—</td><td>o.</td></tr>
+							<tr><td><code>syl_be.mf </code></td><td>—</td><td>The /be/ syllable</td><td>—</td><td>o with a hat.</td></tr>
+							<tr><td><code>syl_bi.mf </code></td><td>—</td><td>The /bi/ syllable</td><td>—</td><td>o with a chin.</td></tr>
+							<tr><td><code>syl_bo.mf </code></td><td>—</td><td>The /bo/ syllable</td><td>—</td><td>v.</td></tr>
+							<tr><td><code>syl_da.mf </code></td><td>—</td><td>The /da/ syllable</td><td>—</td><td>\i.</td></tr>
+							<tr><td><code>syl_de.mf </code></td><td>—</td><td>The /de/ syllable</td><td>—</td><td>\i\ with a hat.</td></tr>
+							<tr><td><code>syl_di.mf </code></td><td>—</td><td>The /di/ syllable</td><td>—</td><td>\i\ with a chin.</td></tr>
+							<tr><td><code>syl_do.mf </code></td><td>—</td><td>The /do/ syllable</td><td>—</td><td>c.</td></tr>
+							<tr><td><code>syl_empty.mf</code></td><td>—</td><td colspan="3">A placeholder.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>Let’s build this up in reverse direction to save the ligatures for last. Again, it’s probably not the correct way to do it, but it does let us keep a little suspense.</p>
+				<section id="chapter-6-3-1">
+					<h4 epub:type="title"><code>syl_empty.mf</code></h4>
+					<p>A placeholder which should be remembered.</p>
+					<blockquote>
+						<pre>
+"The empty symbol";
+beginchar(char_code,0u#,cap_height#,0);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-2">
+					<h4 epub:type="title"><code>syl_do.mf</code></h4>
+					<p>A unique character but the METAFONT code should be unsurprising.</p>
+					<blockquote>
+						<pre>
+"The syllable do";
+beginchar(char_code,7u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-3">
+					<h4 epub:type="title"><code>syl_di.mf</code></h4>
+					<p>Manually creating an accented character. We can actually stick to only \MF\ when working this out.</p>
+					<blockquote>
+						<pre>
+"The syllable di";
+beginchar(char_code,6u#,cap_height#,0);
+    z1=( 2u+1u,0.0h);
+    z2=( 2u+1u,0.8h);
+    z3=( 0u+1u,-0.2h);
+    z4=( 2u+1u,-0.1h);
+    z5=( 4u+1u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    draw z3..z4..z5;
+    labels(range 1 thru 5);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-4">
+					<h4 epub:type="title"><code>syl_de.mf</code></h4>
+					<p>Manually adding a hat.</p>
+					<blockquote>
+						<pre>
+"The syllable de";
+beginchar(char_code,6u#,cap_height#,0);
+    z1=( 2u+1u,0.0h);
+    z2=( 2u+1u,0.8h);
+    z3=( 0u+1u,0.9h);
+    z4=( 2u+1u,   h);
+    z5=( 4u+1u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    draw z3--z4--z5;
+    labels(range 1 thru 5);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-5">
+					<h4 epub:type="title"><code>syl_da.mf</code></h4>
+					<p>An old friend.</p>
+					<blockquote>
+						<pre>
+"The syllable da";
+beginchar(char_code,3u#,cap_height#,0);
+    z1=( 0.5u+1u,0.0h);
+    z2=( 0.5u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2;
+    labels(range 1 thru 2);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-6">
+					<h4 epub:type="title"><code>syl_bo.mf</code></h4>
+					<p>Another unique letter.</p>
+					<blockquote>
+						<pre>
+"The syllable bo";
+beginchar(char_code,7u#,cap_height#,0);
+    z1=(0.0u+1u,0.8h);
+    z2=(2.5u+1u,0.0h);
+    z3=(5.0u+1u,0.8h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-7">
+					<h4 epub:type="title"><code>syl\_bi.mf</code></h4>
+					<p>Manually adding a chin.</p>
+					<blockquote>
+						<pre>
+"The syllable bi";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u, 0.0h);
+    z2=( 0u+1u, 0.4h);
+    z3=( 5u+1u, 0.8h);
+    z4=(10u+1u, 0.4h);
+    z5=( 3u+1u,-0.2h);
+    z6=( 5u+1u,-0.1h);
+    z7=( 7u+1u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    draw z5..z6..z7;
+    labels(range 1 thru 7);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-8">
+					<h4 epub:type="title"><code>syl_be.mf</code></h4>
+					<p>Manually adding a hat.</p>
+					<blockquote>
+						<pre>
+"The syllable be";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    z5=( 3u+1u,0.9h);
+    z6=( 5u+1u, h);
+    z7=( 7u+1u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    draw z5--z6--z7;
+    labels(range 1 thru 7);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-9">
+					<h4 epub:type="title"><code>syl_ba.mf</code></h4>
+					<p>A very old friend.</p>
+					<blockquote>
+						<pre>
+"The syllable ba";
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 4);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-6-3-10">
+					<h4 epub:type="title"><code>sylfont.mf</code></h4>
+					<p>Now let’s finally have a look at the primary font file.</p>
+					<blockquote>
+						<pre>
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+% Our consonants
+
+"The letter A"; char_code:=hex "0041"; input syl_empty;
+"The letter B"; char_code:=hex "0042"; input syl_ba;
+"The letter D"; char_code:=hex "0044"; input syl_da;
+"The letter E"; char_code:=hex "0045"; input syl_empty;
+"The letter I"; char_code:=hex "0049"; input syl_empty;
+"The letter O"; char_code:=hex "004F"; input syl_empty;
+"The letter a"; char_code:=hex "0061"; input syl_empty;
+"The letter b"; char_code:=hex "0062"; input syl_ba;
+"The letter d"; char_code:=hex "0064"; input syl_da;
+"The letter e"; char_code:=hex "0065"; input syl_empty;
+"The letter i"; char_code:=hex "0069"; input syl_empty;
+"The letter o"; char_code:=hex "006F"; input syl_empty;
+
+% Our syllables
+
+char_code:=hex "0080";
+input syl_ba; char_code:=char_code+1;
+input syl_be; char_code:=char_code+1;
+input syl_bi; char_code:=char_code+1;
+input syl_bo; char_code:=char_code+1;
+
+char_code:=hex "0090";
+input syl_da; char_code:=char_code+1;
+input syl_de; char_code:=char_code+1;
+input syl_di; char_code:=char_code+1;
+input syl_do; char_code:=char_code+1;
+
+ligtable "B" : "A"=:hex"0080", "E"=:hex"0081", "I"=:hex"0082", "O"=:hex"0083",
+               "a"=:hex"0080", "e"=:hex"0081", "i"=:hex"0082", "o"=:hex"0083";
+
+ligtable "D" : "A"=:hex"0090", "E"=:hex"0091", "I"=:hex"0092", "O"=:hex"0093",
+               "a"=:hex"0090", "e"=:hex"0091", "i"=:hex"0092", "o"=:hex"0093";
+
+ligtable "b" : "A"=:hex"0080", "E"=:hex"0091", "I"=:hex"0082", "O"=:hex"0083",
+               "a"=:hex"0080", "e"=:hex"0081", "i"=:hex"0082", "o"=:hex"0083";
+
+ligtable "d" : "A"=:hex"0090", "E"=:hex"0091", "I"=:hex"0092", "O"=:hex"0093",
+               "a"=:hex"0090", "e"=:hex"0091", "i"=:hex"0092", "o"=:hex"0093";
+
+ligtable hex"0082" : "a"=:hex"0081";
+
+end;
+						</pre>
+					</blockquote>
+					<p>This use of the <code>ligtable</code> command is new, but it matches much better with its name. In this case we are actually defining ligatures. So how does this work? You type the word <code>Bia</code> into your TeX document because⁠ ⁠… because you want to. TeX asks the <code>tfm</code> file for the size of the box for the letter <em>B</em>. The <code>tfm</code> file says that the width is the width provided by <code>syl_ba.mf</code>. Then TeX asks the <code>tfm</code> file for the size of the box for the letter <em>i</em>. The <code>tfm</code> file has a ligature table for <em>B</em> and also confirms that there is an entry in that ligtable for <em>i</em> and that the glyph to look if is found as character code <code>hex"0082"</code> that says that “Bi” means the glyph defined by <code>syl_bi.mf</code>. So the <em>B</em> is deleted (along with its box) and a new box is created for <code>hex"0082"</code>. Then TeX asks the <code>tfm</code> file for the size of the box for the letter <em>a</em>. The character is currently <code>hex"0082"</code>, so the ligature table is checked for a <code>hex"0082"</code> (since we no longer have the <em>B</em>) and finds that there is a ligtable for that character. This entry is checked for a value of <em>a</em> and there is one, so the <code>hex"0082"</code> (along with its box) are removed and a new character is added for <code>hex"0081"</code>. After that there is no ligature table entry for <code>hex"0081"</code> so TeX keeps moving along excited that more ligature work may be coming again.</p>
+					<p>You have probably noticed that in addition to having an empty a character, I also define a charcter for a <em>b</em> all by itself even though my invented writing system does not have a way to write only a <em>b</em>. The empty character is to keep TeX from complaining, the “ba” standing in for “b” is to stop METAFONT from complaining. In fact, if we are missing this character from the font, METAFONT will refuse to build the font because it is listed in the <code>ligtable</code>.</p>
+					<p>Let’s test this out. First we build the font:</p>
+					<blockquote>
+						<pre>
+mf '\mode=ljfour; mode_setup; input sylfont.mf'
+gftopk sylfont.600gf
+						</pre>
+					</blockquote>
+					<p>Then we write the LaTeX code:</p>
+					<blockquote>
+						<pre>
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\sylfont}{sylfont}
+
+{\sylfont ba be bi bo da de di do bia }
+
+\end{document}
+						</pre>
+					</blockquote>
+					<p>After everything completes you will see something like:</p>
+					<p><img alt="Part of syltest.pdf" src="../images/syltest.png"/></p>
+				</section>
+			</section>
+			<section id="chapter-6-4">
+				<h3 epub:type="title">Extras</h3>
+				<p>I mentioned at the beginning of this lesson that you can combine as many letters as you want, <em>assuming you have enough space</em>. METAFONT still limits you to two-hundred-fifty-six glyphs so if your allowable syllables includes <em>springs</em> you will probably run out of available glyph locations.</p>
+				<section id="chapter-6-4-1">
+					<h4 epub:type="title">Multiple Fonts</h4>
+					<p>One way to address that is to have multiple fonts. The downside to that is that you can’t just type it. Instead of typing <em>springs</em> you have to type <code>\fontpartc\char"4B</code>, which can be made to look nice when printed but is really painful to handle properly and requires extremely tedious proofreading. If you really want this many letters, then you probably want to continue with the lessons through modern fonts.</p>
+					<p>But, wait a second⁠ ⁠…</p>
+					<p>Those of you with enough famililarity with hexadecimal numbers will wonder why am I writing METAFONT code like <code>char_code := hex "0040";</code>? Why not just <code>char_code := hex "40";</code>?</p>
+					<p>Try out using numbers like <code>hex "0123"</code> and <code>hex "2123"</code> and you will find that METAFONT turns both of these into 35, or hex “23”. So using four digits provides no harm, but I want to be ready for the eventual future where other tools will use all four digits to place them into multiple fonts before they are combined into a single <code>otf</code> file.</p>
+				</section>
+				<section id="chapter-6-4-2">
+					<h4 epub:type="title">Advanced Ligatures</h4>
+					<p>We have only used the most basic of ligatures available. METAFONT actually allows for quite a bit of ligature replacements.</p>
+					<blockquote>
+						<table border="">
+							<tbody>
+								<tr><td><code>a: b</code></td><td><code> =: </code></td><td><code>c;</code></td><td>“ab” becomes “c” </td><td>process c next</td></tr>
+								<tr><td><code>a: b</code></td><td><code>|=: </code></td><td><code>c;</code></td><td>“ab” becomes “ac” </td><td>process a next</td></tr>
+								<tr><td><code>a: b</code></td><td><code>|=:&gt; </code></td><td><code>c;</code></td><td>“ab” becomes “ac” </td><td>process c next</td></tr>
+								<tr><td><code>a: b</code></td><td><code> =:| </code></td><td><code>c;</code></td><td>“ab” becomes “cb” </td><td>process c next</td></tr>
+								<tr><td><code>a: b</code></td><td><code> =:|&gt; </code></td><td><code>c;</code></td><td>“ab” becomes “cb” </td><td>process b next</td></tr>
+								<tr><td><code>a: b</code></td><td><code>|=:| </code></td><td><code>c;</code></td><td>“ab” becomes “acb”</td><td>process a next</td></tr>
+								<tr><td><code>a: b</code></td><td><code>|=:|&gt; </code></td><td><code>c;</code></td><td>“ab” becomes “acb”</td><td>process c next</td></tr>
+								<tr><td><code>a: b</code></td><td><code>|=:|&gt;&gt;</code></td><td><code>c;</code></td><td>“ab” becomes “acb”</td><td>process b next</td></tr>
+							</tbody>
+						</table>
+					</blockquote>
+					<p>What does “process <em>n</em>” mean? That first one is the one we used before for the syllable of <code>bia</code>. When we typed “bi” it became “syl_bi” and then TeX looked at the “syl_bi” table to see that “syl_bia” also needed to be replaced.</p>
+					<p>For the next one we could have “ab” turn into “ac,” and then TeX would check the “a” table again in order to see if “ac” should be replaced with something new.</p>
+					<p>For the third one we could also have “ab” turn into “ac,” but then TeX would consider the “a” fully accepted and would now start looking at the “c” table to see what to replace next.</p>
+					<p>This is also why the last type has three different versions. Should TeX reprocess the entire thing, consider “a” fully accepted, or consider “ab” fully accepted?</p>
+					<p>These rules can be fun to play with, but I must admit that our use of the <code>ligtable</code> command has come to an end. Really I just wanted you to become comfortable with the idea of kerning and ligatures. They way we will actually do this for final fonts is quite a bit different.</p>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

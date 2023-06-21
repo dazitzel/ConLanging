@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 4: Accents and Abjads</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-4">
+			<h2 epub:type="title">Lesson 4: Accents and Abjads</h2>
+			<p>In this lesson I hope to teach you enough about accents that you can add one (or two) accents to any letter you choose.</p>
+			<section id="chapter-4-1">
+				<h3 epub:type="title">Introduction</h3>
+				<p>There’s actually a few things to introduce here.</p>
+				<section id="chapter-4-1-1">
+					<h4 epub:type="title">Abjads</h4>
+					<p>Strictly speaking, <strong>abjad</strong>s do not need accents of any kind. In an pure abjad, the techniques of alphabets in the prior lesson would work just fine. There would be one symbol per consonant and enough context to determine the vowels. But there are many abjads which are not pure and, for reasons not well understood, these writing systems seem to like to add these vowels by means of small accent marks. Sometimes for all of them but often only for the surprising vowel sounds.</p>
+				</section>
+				<section id="chapter-4-1-2">
+					<h4 epub:type="title">What Are Accents</h4>
+					<p>Abjad users aren’t the only ones. Whenever you see read an older book and see coordinate spelled <em>coördinate</em>, they are using an accent that tells you that this word does not follow the normal rules of pronounciation. We would normally pronounced that coor-di-nate but the ö says that it is a separate syllable and should be pronounced co-or-di-nate instead.</p>
+					<p>Sometimes the accents are so integrated that they are considered new letters, our J used to be I an extended tail.</p>
+					<p>Other times what looks like an accent is just part of the letter: we have i and j but not ı nor ȷ.</p>
+					<p>What really determines whether something is an accent or not is how the users of the system treat them. If they see them as separate letters, then they are separate letters even if they write it as a base letter plus an accent mark.</p>
+				</section>
+				<section id="chapter-4-1-3">
+					<h4 epub:type="title">Typing Accents</h4>
+					<p>There are about three different methods for handling the typing of accents.</p>
+					<p>First, you can treat it as a separate letter anyway and just go for it. Some digital fonts (and keyboard drivers) have done this even when the language considers it an accent.</p>
+					<p>Second, you can take what’s called the <strong>dead-key</strong> approach. There are special <em>accent keys</em> which do nothing when pressed⁠— they are dead keys. When you type the next key, if it can accept that accent, then it is accented. If it can’t accept that accent, then it just types normally. TeX and METAFONT (as well as many keyboard drivers) do this. When I want to say ö in TeX I have to type <code>\"o</code> which is effectively a <code>"</code> dead key followed by a compatible base character.</p>
+					<p>Third, you can take what’s called the <strong>combining</strong> approach. There are special <em>accent keys</em> which go back and add an accent to the prior character. This is what Unicode (and modern digital fonts) do. So even if you type using a dead key approach, the computer may be switching things around for you.</p>
+					<p>This means that for this lesson, you won’t be learning about how TeX and METAFONT handle accents. You will instead be learning how to make accents that will evenutually work nicely with modern digital fonts.</p>
+				</section>
+				<section id="chapter-4-1-4">
+					<h4 epub:type="title">Limits</h4>
+					<p>Even though many abjads are right to left writing, we won’t be covering that. And we won’t be talking about writing systems like Arabic that change form depending on the letters around them. We are just talking about adding accents.</p>
+					<p>In order to make accents look as good as possible, you really need to custom make all the glyphs you want to support with individual accent marks. Doing this is more a question of either kerning or ligatures (and a future lesson). We are taking the simple approach for now which should let you get something up and running. At this point the goal is to get you up and running enough that you can experiment. Once you have the writing system down, then you can craft each combination.</p>
+				</section>
+			</section>
+			<section id="chapter-4-2">
+				<h3 epub:type="title">Language</h3>
+				<p>Our language will consist of one letter and three accents.</p>
+				<p>The base letter will look quite a bit like our letter o. The accents will be a hat above the o, a pair of dots within the o, and a curve below the o.</p>
+			</section>
+			<section id="chapter-4-3">
+				<h3 epub:type="title">Glyphs</h3>
+				<p>We’ve talked about thinking through orgainizing files before we get too involved. Let’s actually do that this time.</p>
+				<blockquote>
+					<table>
+						<tbody>
+							<tr><td><code>ofont.mf</code> </td><td>—</td><td>The entire font.</td></tr>
+							<tr><td><code>ochar.mf</code> </td><td>—</td><td>Our base character.</td></tr>
+							<tr><td><code>accenthigh.mf</code></td><td>—</td><td>The high accent.</td></tr>
+							<tr><td><code>accentmid.mf</code> </td><td>—</td><td>The middle accent.</td></tr>
+							<tr><td><code>accentlow.mf</code> </td><td>—</td><td>The low accent.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<section id="chapter-4-3-1">
+					<h4 epub:type="title"><code>ofont.mf</code></h4>
+					<p>Let’s take a look at our primary font file first.</p>
+					<blockquote>
+						<pre>
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+char_code:= hex "0040";
+
+char_code:=char_code+1; input ochar;
+
+char_code:= hex "0060";
+
+char_code:=char_code+1; input accenthigh;
+char_code:=char_code+1; input accentmid;
+char_code:=char_code+1; input accentlow;
+
+end;
+						</pre>
+					</blockquote>
+					<p>So this is exactly as I explained. If I change my mind about the proper order of the accents, I just have to move them around. By making the first <code>char_code</code> start at a value of 64, that means the next letter is in the place of capital A. By making the second <code>char_code</code> start at a value of 96, that means the accents start at lowercase a.</p>
+				</section>
+				<section id="chapter-4-3-2">
+					<h4 epub:type="title"><code>ochar.mf</code></h4>
+					<p>So much for the primary font file, let’s see our base character shape.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,12u#,cap_height#,0);
+    z1=( 5u+1u,0.0h);
+    z2=( 0u+1u,0.4h);
+    z3=( 5u+1u,0.8h);
+    z4=(10u+1u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3..z4..cycle;
+    labels(range 1 thru 5);
+endchar;
+						</pre>
+					</blockquote>
+					<p>Absolutely none of this should come as a surprise.</p>
+				</section>
+				<section id="chapter-4-3-3">
+					<h4 epub:type="title"><code>accenthigh.mf</code></h4>
+					<p>Now let’s go see our first accent mark.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-11u,0.9h);
+    z2=(5u-11u,   h);
+    z3=(7u-11u,0.9h);
+    pickup pencircle scaled 5;
+    draw z1--z2--z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+					<p>This may not look too unusual at first, but take a closer look at <code>beginchar</code>. The second argument (the width) is 0! We have just defined a character that has a width of 0⁠—that is, after this character has been added to the page then TeX is to not advance any amount before moving onto the next character. This is the reverse of the dead key. What we have here is a dead character. So you type o, and TeX moves forward ready for your next character; then you type " and TeX ignores it when assembling the page⁠—though ink will still be added when it is time to paint the page.</p>
+					<p>Take a second look and notice the coordinate <code>z1</code>. METAFONT has been instructed to place ink both outside and to the left of the glyph space. So this accent (of no space) goes back and adds ink to the previous character. Which should not seem that off since that is what people do as well.</p>
+				</section>
+				<section id="chapter-4-3-4">
+					<h4 epub:type="title"><code>accentmid.mf</code></h4>
+					<p>Alright, let’s take a look at the next accent character.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(4u-11u,0.4h);
+    z2=(6u-11u,0.4h);
+    pickup pencircle scaled 5;
+    draw z1;
+    draw z2;
+    labels(range 1 thru 2);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<section id="chapter-4-3-5">
+					<h4 epub:type="title"><code>accentlow.mf</code></h4>
+					<p>And our final accent mark.</p>
+					<blockquote>
+						<pre>
+beginchar(char_code,0u#,cap_height#,0);
+    z1=(3u-11u,-0.2h);
+    z2=(5u-11u,-0.1h);
+    z3=(7u-11u,-0.2h);
+    pickup pencircle scaled 5;
+    draw z1..z2..z3;
+    labels(range 1 thru 3);
+endchar;
+						</pre>
+					</blockquote>
+				</section>
+				<p>Now let’s build the font.</p>
+				<blockquote>
+					<pre>
+mf '\mode=ljfour; mode_setup; input ofont.mf'
+gftopk ofont.600gf
+					</pre>
+				</blockquote>
+				<p>And let’s test it out with <code>ofonttest.tex</code>:</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\ofont}{ofont}
+
+Letter by itself.
+
+{\ofont A }
+
+Letters with one accent.
+
+{\ofont Aa Ab Ac }
+
+Letters with two accents.
+
+{\ofont Aab Aac Abc }
+
+Now one hunderd letters with all three accents!
+
+{\ofont
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc Aabc
+}
+
+\end{document}
+					</pre>
+				</blockquote>
+				<p>You should see our font look something like this:</p>
+				<p><img alt="Part of ofonttest.tex." src="../images/ofonttest.png"/></p>
+			</section>
+			<section id="chapter-4-4">
+				<h3 epub:type="title">Extras</h3>
+				<p>This will give you accents, but it also assumes that all the characters are of a similar width. If you had a character that looked more like an I or l, then these accents would be too far to the left. If you had a character that had a width more like an M or W, then the accent would be too far to the right.</p>
+				<p>One solution to that is to make every character have the same width. Another is to have different accents. The better answer is handled in next lesson.</p>
+			</section>
+		</section>
+	</body>
+</html>

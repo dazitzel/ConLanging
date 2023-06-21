@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Answers to Exercises</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body epub:type="backmatter">
+		<section id="answers">
+			<h2 epub:type="title">Answers to Exercises</h2>
+			<p><strong>Exercise 2:</strong> If you type the equations in correctly, METAFONT does not complain so the equations are consistent. You can either use the trick we used, or you can type in the equations and follow up with <code>a; b; c;</code>. METAFONT will report values of 2, 7, and −3 so there is enough information to solve them.</p>
+			<p><strong>Exercise 7:</strong></p>
+			<ol>
+				<li>
+					<p><code>{left}</code> and <code>{right}</code> both define a horizontal direction, and thus will force the curve to be horizontal at the point where they are specified. But <code>{left}</code> also indicates that the curve will have to go from right to left when it passes the specified point, while <code>{right}</code> forces the curve to go from left to right at that point. So <code>{left}</code> and <code>{right}</code> define both horizontal directions, but of opposite <em>sense</em>. Check out the curves below to see what tremendous consequences the difference of sense can have for the overall shape of a curve.</p>
+					<blockquote>
+						<table border="">
+							<tbody>
+								<tr><td><img alt="Loop using left." src="../images/leftdir.jpg"/></td></tr>
+								<tr><td><code>draw z0{up}..{left}z1..{down}z2;</code></td></tr>
+								<tr><td><img alt="Loop using right." src="../images/rightdir.jpg"/></td></tr>
+								<tr><td><code>draw z0{up}..{right}z1..{down}z2;</code></td></tr>
+								<tr><td>An example illustrating the difference between <code>left</code> and <code>right</code></td></tr>
+							</tbody>
+						</table>
+					</blockquote>
+				</li>
+				<li><p><code>up</code> is a vector meaning: “move 1 pixel upwards,” while <code>right</code> means: “move 1 pixel to the right.” If you remember that the addition of vector is simply the addition of displacements one after the other, <code>up + right</code> means: “move 1 pixel upwards then 1 pixel to the right.” You can check on some graph paper that this corresponds to the direction exactly in between the upwards and rightwards directions, <abbr>i.e.</abbr> at 45 degrees from the horizontal, pointing to the right. In other words, writing <code>{up + right}</code> is exactly equivalent to writing <code>{ dir 45}</code>.</p></li>
+				<li><p>None! The direction a vector defines is independent from its length (<code>up</code> and <code>10up</code> both point exactly upwards, regardless of the fact that one is 10 times as long as the other), so <code>{up}</code> and <code>{10up}</code> both define exactly the same direction. This means that you needn’t worry about the length of your vectors when you define directions will just be ignored by METAFONT. Just make sure your vector <em>does</em> have some length. A vector of length 0 like <code>origin</code> cannot define any direction, and thus something equivalent to <code>{origin}</code> will just be ignored by METAFONT. (At least the length of the resulting vector, when it results from a calculation. But inside the calculation the lengths of the vectors are meaningful: <code>up + right</code> defines a different direction from <code>10up + right</code>).</p></li>
+			</ol>
+			<p><strong>Exercise 8:</strong> At first sight, this problem probably looks impossible to solve, especially with only two instructions. And with any other programming language, it would probably be unsolvable indeed. But we’re using METAFONT here, which has been designed to make such actually common problems easy to solve. Firstly, it’s very easy to define the middle point between two points. You just need to remember the brackets notation, which allows you to define any point on the line defined by two other points. In our case, we can define point 4 as the middle between points 2 and 3 through the instruction:</p>
+			<blockquote>
+				<pre>
+z4 = .5[z2, z3];
+				</pre>
+			</blockquote>
+			<p class="continued">The second instruction we have to write is obviously the actual drawing instruction, which will be in the form “<code>draw z0..{</code>⁠ ⁠… <code>}z4..z1;</code>,” where⁠ ⁠… will have to be replaced with a vector indicating the actual direction the curve takes at point 4. How are we going to define this vector? Well, we want this vector to be perpendicular to the line defined by points 2 and 3. So a good place to start is with the vector <code>z3 - z2</code>, which defines the direction of that line. You may be thinking of defining a vector orthogonal to that one using the “<code>dotprod</code>” operator. It is indeed a possibility, but you would have to write a few instructions more to implement it, and we don’t want that. So we need something simpler. And when you want to do things simple with directions, the first thing you should think about is⁠ ⁠… angles. Indeed, having perpendicular curves means having a right angle, <abbr>i.e.</abbr> an angle of 90 degrees, between them. So if we could get the angle of the direction defined by <code>z3 - z2</code> and add it 90, we would get the direction we want, and could transform it into a vector with “<code>dir</code>”. Well, that’s what “<code>angle</code>” is for! So “<code>angle(z3 - z2) + 90</code>” Note the presence of parentheses. The “<code>angle</code>” operator doesn’t need them per se, but they are there to make sure that it will take the full expression <code>z3 - z2</code> as operand, and not just <code>z3</code>. Otherwise the expression would be interpreted as “<code>(angle z3) + z2 + 90</code>,” and would result in an error, since you can’t add together numerical values and pair values. We will see in a later lesson how METAFONT treats priority between operations, but for now don’t hesitate to add parentheses to make sure an expression will be treated as one by what’s around) is the angle of the direction we want the curve to take at point 4, and we can replace the⁠ ⁠… in the drawing instruction as follows:</p>
+			<blockquote>
+				<pre>
+draw z0..{dir(angle(z3 - z2) + 90)}z4..z1;
+				</pre>
+			</blockquote>
+			<p class="continued">The figure was drawn using the two instructions we defined. You can check on it that the curve does indeed pass exactly between points 2 and 3 and perpendicularly to the line defined by those two points which have been drawn to make the orthogonality more obvious.</p>
+			<blockquote>
+				<p><img alt="Demonstrating calculating orthogonality." src="../images/rightangle.jpg"/></p>
+				<p>The resulting curve.</p>
+			</blockquote>
+			<p>Let’s sum up by giving together the two instructions solution of this exercise:</p>
+			<blockquote>
+				<pre>
+z4 = .5[z2, z3];
+draw z0..{dir(angle(z3 - z2) + 90)}z4..z1;
+				</pre>
+			</blockquote>
+			<p><strong>Exercise 9:</strong> Check out earlier figure, as it nearly gives away a solution to this exercise. Indeed, if you take points 0 and 3 of that figure and bring them together just under the two other points, the loop you have would close and look like an 8 shape. This means that you can define your curve with only three points: the bottom point, the middle point (where the curve crosses itself) and the top point. They have the same <code>x</code> coordinate (since they are vertically aligned), so you can just put it at 0 for simplicity:</p>
+			<blockquote>
+				<pre>
+x0 = x1 = x2 = 0;
+				</pre>
+			</blockquote>
+			<p class="continued">Don’t forget that you can define the two coordinates of a point separately. As for the <code>y</code> coordinate, let’s make the whole thing symmetric and put point 1 at the middle between point 0 and point 2:</p>
+			<blockquote>
+				<pre>
+y0 = y2 - 200 = 0;
+y1 = .5[y0, y2];
+				</pre>
+			</blockquote>
+			<p class="continued">Of course, this is only one way to define the point coordinates, and you could simply have defined them more directly than I did.</p>
+			<p>Now comes the drawing instruction. Since we want a closed curve, we know that it will end in “<code>..cycle</code>”. And since we want the curve to cross itself at point 1, we will refer to <code>z1</code> twice in the instruction. You might be tempted to write simply: “<code>draw z0..z1..z2..z1..cycle;</code>”. Unfortunately, the shape that would result from this instruction would only vaguely look like an 8 shape, and looking at it closely you would realize that it actually doesn’t cross itself at all (try it if you don’t believe me), merely comes in contact with itself at point 1. So how can we ensure that the curve actually crosses itself? Simply, by specifying the direction it takes at points 0 and 2. Indeed, if we force the curve to run from left to right (by giving it the <code>{right}</code>” direction) both at points 0 and 2 (or from right to left, as long as both points receive the same direction), you will oblige the curve to cross itself, as it’s the only way for it to obey the slopes you imposed (try it yourself on a piece of paper. If you force yourself to draw a closed shape through two points vertically aligned while going from left to right at both points, the only way to do it is to make an 8 shape). So the correct drawing instruction is:</p>
+			<blockquote>
+				<pre>
+draw z0{right}..z1..z2{right}..z1..cycle;
+				</pre>
+			</blockquote>
+			<p class="continued">And you can see the result on the figure.</p>
+			<blockquote>
+				<p><img alt="The resulting 8 shape." src="../images/eightshape.jpg"/></p>
+				<p>The resulting 8 shape.</p>
+			</blockquote>
+			<p>But wait a second! According to the previous paragraph, specifying the same direction on the bottom and top point should be enough to force the curve to take an 8-like shape. The middle point shouldn’t be necessary at all! So what would happen if we didn’t mention the point 1 in the drawing instruction, <abbr>i.e.</abbr> if we wrote instead:</p>
+			<blockquote>
+				<pre>
+draw z0{right}..z2{right}..cycle;
+				</pre>
+			</blockquote>
+			<p class="continued">You can see the result of that instruction on the figure below. This is indeed a curve which crosses itself exactly at the middle between the definition points, but its shape is a little less 8-like, and it looks a little like a sandglass. Why the presence or absence of the middle point in the drawing instruction results in such different curves is a complicated matter which has to do with the mathematical definition of the curves as they are handled by METAFONT. You needn’t really worry about it, though <i>The METAFONT Book</i> has all the details. Just remember that METAFONT’s idea of the “best” curve following your instructions is not always what you expect, and that METAFONT is <em>very</em> sensitive to the curve definitions you give.</p>
+			<blockquote>
+				<p><img alt="A sandglass shape." src="../images/sandglassshape.jpg"/></p>
+				<p>A sandglass-looking shape.</p>
+			</blockquote>
+			<p>In any case, the 2-point solution to this exercise was not necessary to pass it. If you found its 3-point solution, you have correctly solved the exercise already.</p>
+			<p><strong>Exercise 10:</strong> The most obvious way to pick up such a pen is of course to use the “<code>xscaled</code>” and “<code>yscaled</code>” transformations with a <code>pencircle</code>, as such:</p>
+			<blockquote>
+				<pre>
+pickup pencircle xscaled 20 yscaled 5;
+				</pre>
+			</blockquote>
+			<p class="continued">It is the easiest (and most advisable) way to do it, but certainly not the only one! Indeed, you can also use “<code>scaled</code>” itself together with a combination of “<code>xscaled</code>” and “<code>yscaled</code>” to obtain the same result. For instance, since the smallest dimension of the wanted pen is 5 pixels, you can first scale <code>pencircle</code> by 5, and then stretch it horizontally by a factor of 4 to obtain the wanted ellipsoidal pen:</p>
+			<blockquote>
+				<pre>
+pickup pencircle scaled 5 xscaled 4;
+				</pre>
+			</blockquote>
+			<p class="continued">You can also scale it first by the biggest dimension (here 20) and then <em>shrink</em> it vertically by scaling with a fractional factor:</p>
+			<blockquote>
+				<pre>
+pickup pencircle scaled 20 yscaled .25;
+				</pre>
+			</blockquote>
+			<p class="continued">You could even go wild and make something strange like:</p>
+			<blockquote>
+				<pre>
+pickup pencircle scaled 56 xscaled 5/14;
+				</pre>
+			</blockquote>
+			<p class="continued">Go ahead, make the calculations, and you’ll see that it does create a 5-pixel-high, 20-pixel-wide pen. Depending on the factor you first put with “<code>scaled</code>,” you actually have an infinity of possibilities which all result in the wanted pen. But if you find them silly, don’t worry: you’re not the only one! The first three propositions were the only ones necessary to correctly solve this exercise.</p>
+			<p><strong>Exercise 11:</strong> Defining a rectangular 20-pixel-wide 2-pixel high pen is easy. The line “<code>pensquare xscaled 20 yscaled 2</code>” solves that problem. However, you still have to add a “<code>rotated</code>” transformation to finish the job. But how do we find the correct angle of rotation?</p>
+			<p>This problem is actually trivial if you remember the beginning of this lesson, where we defined the “<code>angle</code>” operator. Remember also that when you have two points labeled 1 and 2, the quantity <code>z2 - z1</code> is a vector whose direction is the one defined by the two points, and that for this reason “<code>angle(z2 - z1)</code>” is the angle this direction makes with horizontality. And in order to have your pen perpendicular to that direction, you just need to rotate it by that angle plus 90 degrees. So you finally pick up the correct pen through the following command:</p>
+			<blockquote>
+				<pre>
+pickup pensquare xscaled 20 yscaled 2 rotated (angle(z2 - z1) + 90);
+				</pre>
+			</blockquote>
+			<p>Note the use of parentheses to make sure that the addition is correctly interpreted.</p>
+		</section>
+	</body>
+</html>

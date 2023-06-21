@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 0: The Name of the Game</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body epub:type="frontmatter">
+		<section id="chapter-z">
+			<h2 epub:type="title">Lesson 0: The Name of the Game</h2>
+			<p>So, here it is, the very first lesson of our tutorial. As its numbering indicates, this is quite a special lesson, which lays the foundations by explaining the nasty little technical details needed to get METAFONT to actually do anything.</p>
+			<section id="chapter-z-1">
+				<h3 epub:type="title">What Does METAFONT Mean?</h3>
+				<p>I the best way to understand what METAFONT is about is by understanding what its name means. So let’s do a bit of etymology.</p>
+				<p>Let’s begin with the end, and we see that it is META<em>FONT</em>. What <strong>font</strong> means is actually a more difficult question than it may seem to those of us who use fonts on all of our computers. A font is almost a collection of characters of similar <em>sytle</em>, or <em>typeface</em> in typographer’s speech. Technically, it’s a particular <em>realization</em> of a certain typeface (wood, lead, digital files) and when it is a computer file it is often called a font or font file. It includes parameters like display size, width, weight (how bold is it), contrast (the difference between the thin parts and the thick parts of characters), style (normal, italic, monospace, etc.) and the presence or absence of serifs (those little decorative strokes that cross the ends of the main character strokes) and their shapes. But you are not limited to this list and can make up your own parameters as many have with newer fonts supporting additional languages.</p>
+				<p>And that’s where the <em>META</em> part comes in. <em>Meta</em> is a prefix of Greek origin which originally meant simply <em>after</em>, but due to a strange turn of events came to mean <em>of a higher order, beyond</em> in Latin and later in all modern languages (except Greek where it kept its original meaning). So metaphysics was originally <em>after physics</em> but now we have metalanguages (languages used to describe languages), metahistory (the study of how people view and study history), metatheorems (theorems about theorems), metarules (rules about rules) etc. Indeed, you can <em>meta</em> about anything, making it quite a hype. So is that it? Is METAFONT fonts about fonts? Not quite. It’s not so much METAFONT but meta-<em>design</em> of fonts. Knuth had an idea that every letter had a basic form which could be tweaked. Instead of just capturing an image and making a font, he designed a system that let him assign values to each of the properties of the fonts. So there is a number that says how wide verses tall the letters are (display size), how spread or compressed it is (width), how thick the strokes are (weight), which style it is in, and the style of serifs. You might notice that these align with the parameters above, and that is the idea. So it’s not just a <strong>bold-extended</strong> font, it’s a font with a <strong>width adjust of 11</strong>; a <strong>stem breath of 41</strong>,⁠ ⁠… And if you want a typeface with a different amount of bold or extended, you can adjust these numbers. He then created one program for each letter, like <em>capital “A”</em>, which automatically adjusted their size and shape based on provided parameters. But you don’t need to be this <em>meta</em> to use METAFONT. You can just make one version of your letter (or two or three) and that is just fine. Even without the meta-ness, METAFONT let’s you specify things in ways that help letters look consistent. Many font tools let you measure, report on, and manually make adjustments, but METAFONT let’s you say beforehand “I want these parts to be consistent” and lets it happen for you.</p>
+			</section>
+			<section id="chapter-z-2">
+				<h3 epub:type="title">How Does METAFONT Work?</h3>
+				<p>So METAFONT is a system that allows you to create hundreds of related fonts easily and with a minimum of work from a human creator⁠—though it can still be quite a lot of work. It may surprise you to know that METAFONT is actually a <em>single</em> command-line application (called <code>mf</code> on most platforms). It has minimal, <em>if any</em> graphical interface. And any graphical interface it has is to display results, not to edit anything. So, how can you create fonts with such a program if you cannot use your mouse to draw anything? Simple: this program is an <em>interpreter</em>. It takes a series of instructions as input, and executes them one at a time, as it receives them. And many of those commands tell it to draw things. In other words, METAFONT is also a <strong>programming language</strong>, like C, BASIC, Pascal (in which the source of METAFONT was originally written), Perl, and of course TeX.</p>
+				<p>So, how do you enter your programs so that <code>mf</code> can interpret them? The same way you do with most interpreters. You save a series of commands in a plain text file (with an extension of <code>.mf</code>) and start <code>mf</code> along with the name of your text file. <code>mf</code> will then read this file and give back (if everything’s okay) two other files with the same name but different extensions (just like any other <strong>compiler</strong>). One file will have the extension <code>.tfm</code>. It’s called the <em>TeX font metrics</em> file. It contains information like the size of the characters which TeX uses when doing it’s typesetting⁠—TeX’s job is just to use the information in the <code>.tfm</code> file and place character boxes in line boxes in page boxes. TeX doesn’t actually use the drawings at all. The second file will have an extension of the form <code>.&lt;number&gt;gf</code> where <code>&lt;number&gt;</code> is a certain value with usually three digits. It contains the actual shapes of the characters (or <strong>glyphs</strong>, as they are usually called) which dvi viewers use to paint individual pixels. Both files form the font, and both are necessary to have a working font.</p>
+				<p>So, is that it? Because of concerns over the size of the font files, we actually use a program called <code>GFtoPk</code> to make a file with the extension <code>.&lt;number&gt;pk</code>, though on some systems the extension is just <code>.pk</code>. The <code>pk</code> and <code>tfm</code> files form the actual font, and then you have to put them in a place where they will be recognized by TeX and LaTeX, and sometimes update your installations font database (you’ll have to look this up on your own). Once done, you can happily use your fonts in LaTeX.</p>
+				<p>It’s actually more complicated to explain than to do. Don’t worry too much about it quite yet, but here is a summary:</p>
+				<ul>
+					<li><p>Write one (or more) plain text file containing METAFONT instructions (a METAFONT program) and save it (or them) with an <code>.mf</code> extension.</p></li>
+					<li><p>Call <code>mf</code> on this file. The result will be two files, ending respectively in <code>.tfm</code> and <code>.&lt;number&gt;gf</code>.</p></li>
+					<li><p>Pack the <code>gf</code> file by calling <code>GFtoPK</code> on it. You will get another file ending in <code>.&lt;number&gt;pk</code> or <code>.pk</code>.</p></li>
+					<li><p>Move your <code>tfm</code> and <code>pk</code> files to some place where they can be recognized by TeX and LaTeX, if needed, let your distribution know that you have added fonts to it.</p></li>
+					<li><p>Enjoy!</p></li>
+				</ul>
+			</section>
+			<section id="chapter-z-3">
+				<h3 epub:type="title">What Do I Need?</h3>
+				<p>What you need comes down to:</p>
+				<ul>
+					<li><p>A computer. Almost <em>any</em> desktop computer. I’m not so certain about the computers that rely very heavily on an application store, but any computer with a command line should have a version of TeX and METAFONT available.</p></li>
+					<li><p>A plain text editor. Notepad, vim, emacs. Something that works with plain text. Most word processors <em>can</em> output plain text files, but something that works <em>primarily</em> with plain text will be easier.</p></li>
+					<li><p>A LaTeX distribution. Go do a search of the web “how do I install LaTeX on <em>my machine</em>” and that should give you instructions the instructions you need to meet this step. LaTeX will almost always include METAFONT and often include <code>GFtoDVI</code> but you may want to double-check the install helps and see if there’s an additional package to install. <code>GFtoDVI</code> will make the process easier and is assumed here.</p></li>
+					<li><p>A <code>dvi</code> converter, or at least a DVI viewer. Many modern systems will install a program called <code>dvipdf</code> which will turn your DVI file into a pdf file for viewing and printing.</p></li>
+					<li><p><i epub:type="se:name.publication.book">The METAFONT Book</i>. I don’t repeat a lot of what <i epub:type="se:name.publication.book">The METAFONT Book</i> covers. Instead I cover the basics and know that you can look up additional tricks and details in the official book.</p></li>
+					<li><p>This tutorial!</p></li>
+				</ul>
+			</section>
+			<section id="chapter-z-4">
+				<h3 epub:type="title">METAFONT’s Proofmode</h3>
+				<p>Early makers of type used to perform a <strong>smoke test</strong> while carving their letters. This was intended to be a quick test as the letter was being carved to confirm that it was matching the intended design. This test consisted of placing the letter in a candle, in order to cover it with smoke, and press it on a scrap piece of paper. Later some might use a device to magnify the results into a larger view which let them see details that might be missed at the actual size and was called proofing. When done, that smoke was easy enough to clean off.</p>
+				<p>When you saw the four-or-five step process above you might have been scared about the process required to actually check how your font is working. During Knuth’s ten year journey, he discovered the smoke test and wanted the same capability when working on his fonts. This process is called proofing and is actually METAFONT’s default way to work. That’s right, if you want to use METAFONT to make an actual font you have to do something extra. Normally, METAFONT works in proofmode. That might seem strange, but when making a <code>tfm</code> and <code>&lt;number&gt;pk</code> file for TeX and the <code>dvi</code> file, METAFONT is run once on each computer. But when designing a font you have to run METAFONT over and over again while checking that your letters are matching the intended design. So by default no <code>tfm</code> file is created and the <code>gf</code> file is <code>2602gf</code>. This is the resolution required to make a proofsheet. There is another program called <code>GFtoDVI</code> which turns this file into a <code>dvi</code> file. Your LaTeX installation should have a way to either directly view a <code>dvi</code> file or to convert it into a format you can view. Many current installations can turn the <code>dvi</code> file into a <code>pdf</code> file with each page devoted to a single character, printed very large (about 20 to 30 times the normal size of font characters) and accompanied with some important information (at least if you made your METAFONT program so that this information appears).</p>
+			</section>
+			<section id="chapter-z-5">
+				<h3 epub:type="title">Building the Gray Font</h3>
+				<p>There is often something that needs to happen before you can actually use proof mode. Proofsheets are made to look like those ancient smoke tests, and require a font called <strong>gray</strong> to properly show the letters in all the glory of their simulated smoke. Some installation will install the gray font, but many do not because they assume that very few people will need it⁠—after all, how many people will make a font instead of just use it?</p>
+				<p>Before you go trying to compile the gray font, see if it’s already installed. Create a file called <code>graytest.tex</code> and make it look like:</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\begin{document}
+
+\newfont{\grayfnt}{gray}
+
+{\grayfnt
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+\char"0
+}
+
+\end{document}
+					</pre>
+				</blockquote>
+				<p>See if you can generate this document. If the gray font is already installed, this will work without error and show a line of dots and you can skip to the next section. If not, then you have to build the gray font yourself and the black font as well.</p>
+				<p>Even though the gray font is usually not built, the source is almost always installed. If it turns out it is missing, go visit Comprehensive TeX Archive Network at <a href="http://ctan.org">ctan.org</a> and download all the files. If you aren’t sure, download <code>gray.mf</code> and you can always download more as you see errors of missing files from missing files like <code>grayf.mf</code> and <code>graycx.mf</code>. There are multiple files as part of this font to support the meta-ness of the font design.</p>
+				<p>Now comes the (only) difficult part of the job. You must choose a mode for the compilation of the font. I will suppose you have access to relatively modern material (not the old inflexible machines that existed when TeX and METAFONT where first written, and which are the reason for the existence of those METAFONT modes), so the most important thing to know is at which resolution your <code>dvi</code> viewer/converter. Note that the two should be identical or you may have surprises). To find that out, check the help or manual pages for your DVI programs, or check for an <em>option</em> menu choice and a <em>display</em> option or something similar. You should then find what mode your viewer/converter uses, and most importantly its resolution (in <strong>dpi</strong> or dots per inch). Usually, this resolution is 600dpi, although some installations use different values. Whatever this value is, choose a METAFONT mode of identical resolution, which is also available among the mode files for the gray font. For a resolution of 600dpi, I suggest using the ljfour mode. You should have a <code>graylj.mf</code> file already prepared for it. For a resolution of 300dpi, there should be a <code>graycx.mf</code> file using the cx mode ready for you.</p>
+				<p>Now that you know what mode you will be using for the compilation of the gray font, open the <code>gray.mf</code> file in your favorite text editor. Change the <code>input</code> command to either input <code>graylj</code> or <code>graycx</code> and save it. Now open a command line, go to the directory containing all those files and enter the following command:</p>
+				<blockquote>
+					<pre>
+mf '\mode=ljfour; input gray.mf'
+					</pre>
+				</blockquote>
+				<p class="continued">for the ljfour mode, or:</p>
+				<blockquote>
+					<pre>
+mf '\mode=cx; input gray.mf'
+					</pre>
+				</blockquote>
+				<p class="continued">for the cx mode. If you have done everything correctly so far, METAFONT should produce a <code>gray.tfm</code> file as well as a <code>gray.600gf</code> or similar. You only need now to convert the <code>gf</code> file to a <code>pk</code> file. You do so with the following command:</p>
+				<blockquote>
+					<pre>
+gftopk gray.600gf gray.pk
+					</pre>
+				</blockquote>
+				<p class="continued">(I trust you won’t forget to replace <code>600</code> by the actual number in the name of the file METAFONT created).</p>
+				<p>Now that you have the gray font correctly compiled, you just need to put the <code>gray.pk</code> and <code>gray.tfm</code> files at the right place for your DVI viewer/converter to detect and use them. If your distribution follows the TDS standard, it’s actually quite easy. There should be a root TDS directory named <code>localtexmf</code>. Just put the <code>gray.pk</code> file, and create the directory if necessary, under the <code>localtexmf</code> directory at <code>fonts/pk/ljfour/public/misc/dpi600</code> if you used the ljfour mode, or, if you used the cx mode, at <code>fonts/pk/cx/public/misc/dpi300</code>. As for the <code>gray.tfm</code> file, put it at <code>fonts/tfm/public/misc</code>. If your TDS distribution does not include a secondary tree root for local additions (hence the <em>local</em><code>texmf</code>), then use the root directory of <code>texmf</code>. If your distribution doesn’t follow the TDS standard, you need to find out in its documentation where to put the font files. In any case, you will usually also have to <em>texhash</em> once you’ve put the font files in position (sometimes called <em>refreshing the filename database</em>, which is done with either a special <em>options</em> program or small utility). Refer to the documentation of your distribution. Once done, the test mentioned above should work. If for some reason this still fails, can always put the two font files in the same directory as LaTeX files. Most versions of TeX will also search there at some point and find it.</p>
+				<p>There are also some files with similar names but <code>black.mf</code>. Try and compile and those fonts too. They are similar to the gray font but for a <strong>smoke proof</strong> which is missing the designer information, but shows up as a smaller and blacker version of the character much closer to those first smoke tests.</p>
+			</section>
+			<section id="chapter-z-6">
+				<h3 epub:type="title">An Example</h3>
+				<p>So, now you have a LaTeX distribution with both METAFONT and the gray font working. Let’s get a taste of METAFONT programming, just to help you digest what has been said so far. It’s also a good check that everything is actually working together.</p>
+				<p>This is presenting as if it is an exercise, but there isn’t really a solution. The <em>solution</em> is that you do it successfully.</p>
+				<section id="chapter-z-6-1">
+					<h4 epub:type="title">Exercise 1</h4>
+					<blockquote>
+						<p>Open the text editor and write the following lines (without the line numbers):</p>
+						<table border="">
+							<tbody>
+								<tr><td> 1</td><td><code>u#:=4/9pt#;</code></td></tr>
+								<tr><td> 2</td><td><code>define_pixels(u);</code></td></tr>
+								<tr><td> 3</td><td><code>beginchar(66,13u#,16u#,5u#);"Letter beta";</code></td></tr>
+								<tr><td> 4</td><td><code> x1=2u; x2=x3=3u;</code></td></tr>
+								<tr><td> 5</td><td><code> bot y1=-5u; y2=8u; y3=14u;</code></td></tr>
+								<tr><td> 6</td><td><code> x4=6.5u; top y4=h;</code></td></tr>
+								<tr><td> 7</td><td><code> z5=(10u,12u);</code></td></tr>
+								<tr><td> 8</td><td><code> z6=(7.5u,7.5u); z8=z6;</code></td></tr>
+								<tr><td> 9</td><td><code> z7=(4u,7.5u);</code></td></tr>
+								<tr><td>10</td><td><code> z9=(11.5u,2u);</code></td></tr>
+								<tr><td>11</td><td><code> z0=(5u,u);</code></td></tr>
+								<tr><td>12</td><td><code> penpos1(2u,20);</code></td></tr>
+								<tr><td>13</td><td><code> penpos2(.5u,0);</code></td></tr>
+								<tr><td>14</td><td><code> penpos3(u,-45);</code></td></tr>
+								<tr><td>15</td><td><code> penpos4(.8u,-90);</code></td></tr>
+								<tr><td>16</td><td><code> penpos5(1.5u,-180);</code></td></tr>
+								<tr><td>17</td><td><code> penpos6(.4u,150);</code></td></tr>
+								<tr><td>18</td><td><code> penpos7(.4u,0);</code></td></tr>
+								<tr><td>19</td><td><code> penpos8(.4u,210);</code></td></tr>
+								<tr><td>20</td><td><code> penpos9(1.5u,-180);</code></td></tr>
+								<tr><td>21</td><td><code> penpos0(.3u,20);</code></td></tr>
+								<tr><td>22</td><td><code> pickup pencircle;</code></td></tr>
+								<tr><td>23</td><td><code> penstroke z1e..z2e..z3e..z4e..z5e..z6e..{up}z7e..z8e..z9e..{up}z0e;</code></td></tr>
+								<tr><td>24</td><td><code> labels(range 1 thru 9);</code></td></tr>
+								<tr><td>25</td><td><code>endchar;</code></td></tr>
+								<tr><td>26</td><td><code>end</code></td></tr>
+							</tbody>
+						</table>
+					</blockquote>
+					<p class="continued">Save the resulting file under the name <code>beta.mf</code>. Then open a command-line window, go to the directory where you saved <code>beta.mf</code> file, type the following line:</p>
+					<blockquote>
+						<pre>
+mf beta.mf
+						</pre>
+					</blockquote>
+					<p class="continued">and hit the “ENTER” key. If everything’s working correctly (and if you didn’t make a mistake when copying the program), you should get an output close to this:</p>
+					<blockquote>
+						<pre>
+This is METAFONT, Version 2.718281 (TeX Live 2013)
+(beta.mf
+Letter beta [66] )
+Output written on beta.2602gf (1 character, 2076 bytes).
+Transcript written on beta.log.
+						</pre>
+					</blockquote>
+					<p class="continued">and possibly a window will pop up and show some graphics of a letter looking like a Greek beta. If you check your directory, you will see that indeed, a <code>beta.2602gf</code> file has appeared, as well as a <code>beta.log</code> file, which just contains the text very similar to above. Carry on and enter now the following line:</p>
+					<blockquote>
+						<pre>
+gftodvi beta.2602gf
+						</pre>
+					</blockquote>
+					<p class="continued">If it doesn't say anything then is probably worked, but you should find that you now have also a <code>beta.dvi</code> file in your directory. Continue on and enter the following line:</p>
+					<blockquote>
+						<pre>
+dvipdf beta.dvi
+						</pre>
+					</blockquote>
+					<p class="continued">You should now find a file named <code>beta.pdf</code> which you can view and is similar to:</p>
+					<blockquote>
+						<p><img alt="The Greek letter beta." src="../images/beta.jpg"/></p>
+						<p>The Greek letter <span class="betafont">B</span>.</p>
+					</blockquote>
+					<p>In the program I numbered the lines. In reality the numbers are never there, the exact line numbers don’t matter to METAFONT, and I won’t include them in other listings. They were included so that you could follow along with this first example.</p>
+					<p>To understand how METAFONT drew this figure out of the program you fed it with, let’s now have a closer look at the program itself:</p>
+					<ul>
+						<li><p>Line 1 defines an algebraic parameter with which all the dimensions of the glyph will be defined. By doing so, you will make it much easier to produce variants of your fonts, by changing the values of a few parameters, rather than having to look through a full complicated source where all the dimensions have been directly specified (one says “hard-wired”), and as such multiplying the chances you will make a mistake or will forget to change one value. Working with parameters is the key ingredient to meta-design. This tutorial will slowly teach you to think with parameters rather than direct values.</p></li>
+						<li><p>As you can see, in the first line the parameter ends in <code>#</code>. However, in the rest of the program, the parameter is simply called <code>u</code>. What is happening here is that “true” lengths (<abbr>i.e.</abbr> device-independent values) in METAFONT are always specified with parameters ending in <code>#</code> (called “sharped” variables). However, to get the same values on all devices (<abbr>i.e.</abbr> screens, different kinds of printers etc.), you need to specify which device you create your font with, and then convert your “sharped” values into “soft,” device-dependent, values. That’s what the <code>define\_pixels</code> command on Line 2 does. It converts a “sharped” parameter into a “soft” one, of identical name but without a <code>#</code> sign at the end. This feature of METAFONT, related to the <em>modes</em> you will learn about in Lesson 3, is very much a sign of METAFONT’s age, created at a time when printing devices were far less flexible than they are now. Still, it is necessary to learn how it works, and it is still useful for meta-design.</p></li>
+						<li><p>Line 3 indicates that we start now creating a character in the font. It defines the position of the character in that font, as well as its dimensions (or rather the dimensions of an abstract “box” around the character called the <em>bounding box</em>, which is what TeX actually manipulates when it puts characters together on a page. This line also defines a <em>label</em> for this character (put just after the <code>beginchar</code> command between double quotes), which appears on the proofsheets for this character. It is a good idea to always label your characters, as it facilitates navigation in your programs.</p></li>
+						<li><p>Lines 4 to 11 define the positions of various points through which the “pen” will go to draw the glyph. For now, just observe how all point positions are defined only in terms of the parameter <code>u</code> or of other points, rather than in terms of actual length values. This makes the character easily scalable by just modifying the value of <code>u#</code> once.</p></li>
+						<li><p>Lines 12 to 21 define <em>pen positions</em>, <abbr>i.e.</abbr> the width of the pen at the position of the point, and its inclination. This is what defines the looks of the character, compared to similar characters using the same point positions.</p></li>
+						<li><p>Line 22 instructs METAFONT to take a certain pen (here with a thin round nib). It’s with this pen that METAFONT will draw the glyph. By changing the pen, you can achieve different kinds of effects.</p></li>
+						<li><p>Line 23 is the actual (and only) drawing instruction. Its relative simplicity shows the strength of METAFONT, which is able to interpolate the positions the pen has to go through between two points without needing help from the user. Simply speaking, the command instructs METAFONT to draw through all the different points in order, following the positions given by the different <code>penpos</code> instructions, and creating the shape you can admire on the figure.</p></li>
+						<li><p>Line 24 instructs METAFONT to show, with their numbers, the points used for the construction of the shape on the proofsheet. It is <em>very</em> good practice to do so as much as possible.</p></li>
+						<li><p>Line 25 tells METAFONT that it has finished drawing the character, and that it can get ready to draw another one, or to stop.</p></li>
+						<li><p>Line 26 instructs METAFONT that the job is finished and it can go home. Don’t forget it, as without it METAFONT will think there is still work to do and will wait patiently for you to feed it with new instructions. METAFONT is a very obedient servant.</p></li>
+					</ul>
+					<p class="continued">Once again, don’t worry if you don’t understand everything which is explained here. The goal of this tutorial is after all to teach you what it means.</p>
+					<p>Now, you probably fell in love with the shape you just produced, and want to make a true font out of it, in order to sprinkle your documents with <span class="betafont">B</span>eautiful <span class="betafont">B</span>etas. To do so, go back to your command line, and enter the following line:</p>
+					<blockquote>
+						<pre>
+mf '\mode=ljfour; mode_setup; input beta.mf'
+						</pre>
+					</blockquote>
+					<p class="continued">Some command lines give a special signification to the quote character, and for them the above line will probably result in an error. If you get this error, just remove the quotes around the arguments of the <code>mf</code> command, like this:</p>
+					<blockquote>
+						<pre>
+mf \mode=ljfour; mode_setup; input beta.mf
+						</pre>
+					</blockquote>
+					<p class="continued">In the rest of this tutorial, I will use quotes around such arguments, but feel free to ignore them if you can and want to. For now, just remember that the first two instructions put METAFONT in true fontmaking mode. Depending on your installation, you may need to choose a mode different from <code>ljfour</code>. Basically, you should choose the same that you used to compile the gray font. With METAFONT in fontmaking mode, rather than proofmode, the last command causes METAFONT to finally load and compile <code>beta.mf</code>. The output you will get should look something like this:</p>
+					<blockquote>
+						<pre>
+This is METAFONT, Version 2.718281 (TeX Live 2013)
+**\mode=ljfour; mode_setup; input beta.mf
+(beta.mf [66] )
+Font metrics written on beta.tfm.
+Output written on beta.600gf (1 character, 436 bytes).
+						</pre>
+					</blockquote>
+					<p class="continued">It is slightly different from the output you got the first time around, and indicates that <em>two</em> files have been created this time. And indeed, if you check your directory, you should see that a <code>beta.tfm</code> file and a <code>beta.600gf</code> (or similar with another number) file have appeared. Now you still need to pack the <code>gf</code> file into a usable format. You do so with this command:</p>
+					<blockquote>
+						<pre>
+gftopk beta.600gf
+						</pre>
+					</blockquote>
+					<p>A <code>beta.600pk</code> or <code>beta.pk</code> file should appear in your directory. And that’s it! Your font is now available to every TeX and LaTeX document whose source is in the same directory as the font files and you can test it with the following LaTeX program:</p>
+					<blockquote>
+						<pre>
+\documentclass{article}
+\newfont{\letterbeta}{beta}
+\newcommand{\otherbeta}{{\letterbeta B}}
+\begin{document}
+Let’s try having a strange \otherbeta\ here.
+\end{document}
+						</pre>
+					</blockquote>
+					<p>Just compile it and check the result with either your <code>dvi</code> or <code>pdf</code> viewer as normal.</p>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

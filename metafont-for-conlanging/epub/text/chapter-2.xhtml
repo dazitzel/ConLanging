@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 2: Pens and Curves</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-2">
+			<h2 epub:type="title">Lesson 2: Pens and Curves</h2>
+			<p>In trying to re-create the typographer’s tools, Knuth chose to simulate the tools of drawing.</p>
+			<section id="chapter-2-1">
+				<h3 epub:type="title">Back to Arithmetic</h3>
+				<p>In lesson one I mentioned that we had operators which operated on values, but I did not say which operators worked on which types. Now we will talk about the operators, what they work on, and even cover a new data type.</p>
+				<p>Before we get into any of that we should discuss a few other <em>numbers</em> that METAFONT knows about. These are <code>down</code>, <code>epsilon</code>, <code>infinity</code>, <code>left</code>, <code>origin</code>, <code>right</code>, <code>up</code>, and <code>whatever</code>.</p>
+				<blockquote>
+					<table border="1">
+						<tbody>
+							<tr><td><code>down</code></td><td>is a coordinate. It’s value is (0,-1). It is used to point portions of a curve down.</td></tr>
+							<tr><td><code>epsilon</code></td><td>is a number. It’s value is ¹⁄₆₅₅₃₆ which is the smallest non-zero number that METAFONT can work with. It is used when you want something to change just the tiniest bit.</td></tr>
+							<tr><td><code>infinity</code></td><td>is a number. It’s value is 32,767⁶⁵⁵³⁵⁄₆₅₅₃₆ and is the largest number that METAFONT can work with. Operators will tap out at ∞ and -∞ to avoid overflow.</td></tr>
+							<tr><td><code>left</code></td><td>is a coordinate. It’s value is (-1,0). It is used to point portions of a curve left.</td></tr>
+							<tr><td><code>origin</code></td><td>coordinate. It’s value is (0,0). It is used to get portions of a curve to behave as a start or end point.</td></tr>
+							<tr><td><code>right</code></td><td>is a coordinate. It’s value is (1,0). It is used to point portions of a curve right.</td></tr>
+							<tr><td><code>up</code></td><td>is a coordinate. It’s value is (0,1). It is used to point portions of a curve up.</td></tr>
+							<tr><td><code>whatever</code></td><td>is a number. It deliberately has no value. It is used when a value is needed but you don’t care what the value is.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>There is one new data type to consider⁠— well half of a data type. The <em>angle</em> is a number which can be interpreted as a quantity of degrees. 0 degrees is to the right, 90 degrees is up, and so forth. This allows us to set the angle of lines and also to test for things like are lines parallel or perpendicular.</p>
+				<p>Before I get to the operators, I want to pre-emptively answer a question I’m sure to hear. “Why are you not covering all the cool things you can do with all of these functions?” One, I did say to get and read <i epub:type="se:name.publication.book">The METAFONT Book</i> which describes each of these in detail. Two, my audience is people trying to play around enough to make conscripts for their conlangs. Knowing all the things you can do with <code>rotatedabout</code> is really helpful when making fonts for well established writing systems. But that’s not my audience. Instead, I will just cover each of these briefly and leave a deeper level of playing to my readers.</p>
+				<p>“Doesn’t that mean that they are more likely to just draw lines and not be meta?” So what? After the writing has become established, go back and be meta. When first inventing orthographies you don’t need to be meta. You need the freedom to play. And that’s what I am offering. In fact our next lesson will start <em>re</em>inventing writing systems.</p>
+				<p>Now let’s list all the operators, what they work on, and what they do. When we say “number” we mean “number or angle.” When we say “pair” we mean “coordinates or pair.”</p>
+				<blockquote>
+					<table>
+						<tbody>
+							<tr><td>Function: Add.</td></tr>
+							<tr><td><strong><code>+</code></strong> works with either two numbers or two pairs.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>1+2;</code></td><td><code>(1,2)+(3,4)</code></td></tr>
+											<tr><td><code>3</code></td><td><code>(4,6)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Subtract.</td></tr>
+							<tr><td><strong><code>-</code></strong> works with either two numbers or two pairs.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>1-2;</code></td><td><code>(1,2)-(3,4);</code></td></tr>
+											<tr><td><code>-1</code></td><td><code>(-2,-2)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Multiply.</td></tr>
+							<tr><td><strong><code>*</code></strong> works with either two numbers or a pair and number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>1*2;</code></td><td><code>(1,2)*3;</code></td></tr>
+											<tr><td><code>2</code></td><td><code>(3,6)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Divide.</td></tr>
+							<tr><td><strong><code>/</code></strong> works with two numbers or a pair and a number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>1/2;</code></td><td><code>(1,2)/3;</code></td></tr>
+											<tr><td><code>0.5</code></td><td><code>(0.33333,0.66667)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Exponeation or power.</td></tr>
+							<tr><td><strong><code>**</code></strong> works with two numbers.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>2**3;</code></td></tr>
+											<tr><td><code>8</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Equality.</td></tr>
+							<tr><td><strong><code>=</code></strong> works with matching types.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>x1=3;</code></td><td><code>z1=(1,2);</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Absolute value or length.</td></tr>
+							<tr><td><strong><code>abs</code></strong> works with a number or pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>abs -1;</code></td><td><code>abs (1,2);</code></td></tr>
+											<tr><td><code>1</code></td><td><code>2.23607</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Find the angle.</td></tr>
+							<tr><td><strong><code>angle</code></strong> works with a pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>angle (1,2);</code></td></tr>
+											<tr><td><code>63.43495</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Round up.</td></tr>
+							<tr><td><strong><code>ceiling</code></strong> works with a number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>ceiling 1.2</code></td></tr>
+											<tr><td><code>2</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Cosine from degrees.</td></tr>
+							<tr><td><strong><code>cosd</code></strong> works with a number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>cosd 1;</code></td></tr>
+											<tr><td><code>0.99985</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Unit direction.</td></tr>
+							<tr><td><strong><code>dir</code></strong> works with a number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>dir 1;</code></td></tr>
+											<tr><td><code>(0.99985,0.01746)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Integer divide.</td></tr>
+							<tr><td><strong><code>div</code></strong> works with two numbers.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>3 div 2;</code></td></tr>
+											<tr><td><code>1</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Dot product.</td></tr>
+							<tr><td><strong><code>dotprod</code></strong> works with two numbers or two pairs.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>1 dotprod 2;</code></td><td><code>(1,2) dotprod (3,4);</code></td></tr>
+											<tr><td><code>4</code></td><td><code>11</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: round down.</td></tr>
+							<tr><td><strong><code>floor</code></strong> works with number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>floor 1.2;</code></td></tr>
+											<tr><td><code>1</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Absolute value or length.</td></tr>
+							<tr><td><strong><code>length</code></strong> works with number or pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>length -1;</code></td><td><code>length (1,2);</code></td></tr>
+											<tr><td><code>1</code></td><td><code>2.23607</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Maximum.</td></tr>
+							<tr><td><strong><code>max</code></strong> works with set of numbers.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>max (1,2);</code></td><td><code>max (1,2,3);</code></td></tr>
+											<tr><td><code>2</code></td><td><code>3</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Minimum.</td></tr>
+							<tr><td><strong><code>min</code></strong> works with set of numbers.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>min (1,2);</code></td><td><code>min (1,2,3);</code></td></tr>
+											<tr><td><code>1</code></td><td><code>1</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Modulus or remainder.</td></tr>
+							<tr><td><strong><code>mod</code></strong> works with two numbers.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>3 mod 2;</code></td></tr>
+											<tr><td><code>1</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Reflect image element.</td></tr>
+							<tr><td><strong><code>reflectedabout</code></strong> works with three pairs.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>(x, y) reflectedabout (z1, (0, 0));</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Rotate image element.</td></tr>
+							<tr><td><strong><code>rotated</code></strong> works with number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>rotated 90;</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Rotate image element around a point.</td></tr>
+							<tr><td><strong><code>rotatedaround</code></strong> works with pair and number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>rotatedaround (z1, 90);</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Round to nearest.</td></tr>
+							<tr><td><strong><code>round</code></strong> works with number or pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>round 1.2;</code></td><td><code>round (1.2,3.4);</code></td></tr>
+											<tr><td><code>1</code></td><td><code>(1,3)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Scale or multiply.</td></tr>
+							<tr><td><strong><code>scaled</code></strong> works with a pair and a number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>(1,2) scaled 3;</code></td></tr>
+											<tr><td><code>(3,6)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Shift or add.</td></tr>
+							<tr><td><strong><code>shifted</code></strong> works with two pairs.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>(1,2) shifted (2,3);</code></td></tr>
+											<tr><td><code>(3,5)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Sine from degrees.</td></tr>
+							<tr><td><strong><code>sind</code></strong> works with number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>sind 1;</code></td></tr>
+											<tr><td><code>0.01746</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Square root.</td></tr>
+							<tr><td><strong><code>sqrt</code></strong> works with number.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>sqrt 1;</code></td></tr>
+											<tr><td><code>1</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Multiply first number of pair.</td></tr>
+							<tr><td><strong><code>xscaled</code></strong> works with a pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>(1,2) xscaled 3;</code></td></tr>
+											<tr><td><code>(3,2)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr><td>Function: Multiply second number of pair.</td></tr>
+							<tr><td><strong><code>yscaled</code></strong> works with a pair.</td></tr>
+							<tr>
+								<td>Examples:
+									<table>
+										<tbody>
+											<tr><td><code>(1,2) yscaled 3;</code></td></tr>
+											<tr><td><code>(1,6)</code></td></tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</blockquote>
+			</section>
+			<section id="chapter-2-2">
+				<h3 epub:type="title">Curved Lines</h3>
+				<p>Curved lines, also simply called <em>curves</em>, are lines which are not straight. We saw examples of both straight and curved lines during an earlier lesson. In this tutorial, as you have probably guessed by now, I usually reserve the word “line” to refer to straight lines only, and use the word “curve” for curved ones. This is why you would generally find me saying things like “line or curve.” This is different from the usual use of the word “line,” which in common speech refers to any kind of line.</p>
+				<p>Let’s review the two commands we used to get our smiley eyebrows and mouth in the earlier lesson.</p>
+				<blockquote>
+					<pre>
+draw(20,100)--(50,125)--(80,100);
+draw(20,40)..(50,25)..(80,40);
+					</pre>
+				</blockquote>
+				<p>Notice that the <code>draw</code> command takes a series of coordinates and then draws either a line or a curve between sets of coordinates. You can even mix and match between them which is helpful for letters like the capital B which are a mix of straight and curved lines. Let’s try that out. Start up METAFONT and try the following to see what the result is.</p>
+				<blockquote>
+					<pre>
+draw(20,40)--(50,25)..(80,40); showit;
+					</pre>
+				</blockquote>
+				<p>Two straight lines! You can mix and match, but if you only have two points connecting a curve, you get a line instead. Try this version instead.</p>
+				<blockquote>
+					<pre>
+draw(20,40)--(50,25)..(80,40)..(110,25);
+					</pre>
+				</blockquote>
+				<p>For the rest of this lesson, I’m going to assume that you will add a <code>showit;</code> whenever you want to see results.</p>
+				<blockquote>
+					<hr/>
+					<p>Once again I am extremely indebted to <i>The METAFONT tutorial</i> by Christophe~Grandsire for the remainder of this lesson. I tried doing the remainder of this lesson in a few different ways and just found he did the job so well that I could not improve upon it.</p>
+				</blockquote>
+				<hr/>
+				<p>Assuming you have a good grasp of lines I will focus more on making curves. This is the very secret of the powerful <code>draw</code> command of METAFONT. You can feed it with any number of coordinate pairs (always separated two by two with “..”), and it will draw a smooth curve passing by \emph{all} those points (in the order you typed them in) as well as it can!</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Curve a." src="../images/curve1.jpg"/></td></tr>
+							<tr><td><code>draw z0..z1..z2..z3..z4..z5;</code></td></tr>
+							<tr><td>(a)</td></tr>
+							<tr><td><img alt="Curve b." src="../images/curve2.jpg"/></td></tr>
+							<tr><td><code>draw z0..z1..z2..z5..z4..z3;</code></td></tr>
+							<tr><td>(b)</td></tr>
+							<tr><td><img alt="Curve c." src="../images/curve3.jpg"/></td></tr>
+							<tr><td><code>draw z0..z5..z2..z1;</code></td></tr>
+							<tr><td>(c)</td></tr>
+							<tr><td><img alt="Curve d." src="../images/curve4.jpg"/></td></tr>
+							<tr><td><code>draw z0..z5..z4..z2..z0;</code></td></tr>
+							<tr><td>(d)</td></tr>
+							<tr><td><img alt="Curve e." src="../images/curve5.jpg"/></td></tr>
+							<tr><td><code>draw z0..z5..z3..z4..z2..z1;</code></td></tr>
+							<tr><td>(e)</td></tr>
+							<tr><td><img alt="Curve f." src="../images/curve6.jpg"/></td></tr>
+							<tr><td><code>draw z0..z2..z4..z3..z5..z1;</code></td></tr>
+							<tr><td>(f)</td></tr>
+							<tr><td>Examples of curves and the commands that drew them.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>As you see in those examples, METAFONT doesn’t mind bending the curve quite a lot to get a very smooth result. That’s because as it is used right now, it will always construct curves where bending is <em>minimal</em> at the positions of the given points. Another rule that METAFONT uses when it draws curves is that between two consecutive points given in the <code>draw</code> command, it will try to draw a curve <em>without</em> inflection point, <abbr>i.e.</abbr> a curve which bends in one direction only. An inflection point is a position on a curve where bending changes direction. It’s where a curve changes from concave to convex or the other way around. The middle of the letter S is a good example of an inflection point. METAFONT will break this rule only when it has no other way to keep the curve smooth (as in (b)). This explains why in (f), METAFONT drew such a large loop between points 0 and 2, and between points 5 and 1. A more direct curve between those points would have created an inflection point, and there was a better (in METAFONT’s point of view) way to keep a smooth curve. On the other hand, METAFONT has no problem creating an inflection point at the position of a point given in the <code>draw</code> command. Look for instance at point 5 of (d). Try to remember those two drawing rules. They will help you correctly translate the curves you want to draw into METAFONT instructions.</p>
+				<p>The <code>draw</code> instruction is very powerful. However, if you have tried your hand at a few curves, you have probably noticed that it is sometimes <em>too</em> powerful, in the sense that METAFONT makes decisions about the shape of the curve you want to draw which are against what you meant. That’s actually logical: giving just the position of a few points is quite little information, and METAFONT cannot read your mind! From the positions of the points you gave, it will try to make a nice and smooth curve, but that will be according to its own criteria, since it has no way to guess yours. The result is that it will sometimes draw things differently from what you expected.</p>
+				<p>So does that mean that METAFONT is the boss and that we can only accept its ideas and hope that they sometimes look enough like ours? Of course not! METAFONT is just a computer program, and will do as <em>we</em> want, if we <em>tell</em> it to obey us. In other words, if you want METAFONT to draw exactly the curve you want it to draw, you’ll have sometimes to give it more information than just the positions of the points. How do we do that? Well, there are various ways, and we will see only two of them in this lesson. We will learn more about those methods of control in later lessons.</p>
+				<p>The most obvious way to control the shape of a curve is to specify its direction (or <em>slope</em>) at some point(s). METAFONT allows you to specify the direction the curve will take when it passes by the points you use to define your curve (in other words, in order to control the slope of the curve at some position, you need to put the coordinates of that position in your <code>draw</code> command). Specifying the direction itself is easy when you remember that coordinate pairs aren’t only used to define point positions, but can also be used to define vectors, <abbr>i.e.</abbr> displacements. And since displacements are always done according to a definite direction, using vectors to specify directions is just natural. And indeed, to specify a direction at some point named <code>z</code> in your <code>draw</code> command, you just need to put a coordinate pair, which will be interpreted as a vector, in curly braces “{},” and put the whole thing next to <code>z</code> (nothing can go in between, especially not “..”!). Here is how this syntax looks like:</p>
+				<blockquote>
+					<p>
+						<code>
+							draw <em>&lt;something&gt;</em>..{<em>a</em>,<em>b</em>)}z..<em>&lt;something else&gt;</em>;
+						</code>
+					</p>
+				</blockquote>
+				<p class="continued">or</p>
+				<blockquote>
+					<p>
+						<code>
+							draw <em>&lt;something&gt;</em>..z{(<em>a</em>,<em>b</em>)}..<em>&lt;something else&gt;</em>;
+						</code>
+					</p>
+				</blockquote>
+				<p class="continued">where (<em>a</em>, <em>b</em>) is a coordinate pair defining a vector. For now, don’t worry about the position of the <code>{(<em>a</em>, <em>b</em>)}</code> part. It doesn’t change anything if you put it before or after the point coordinates (note, however, that if you put such a direction specification with the <em>first</em> point coordinates of your <code>draw</code> instruction, you can only add it <em>after</em> the point coordinates. A syntax like:</p>
+				<blockquote>
+					<p>
+						<code>
+							draw {(<em>a</em>, <em>b</em>)}z..<em>&lt;something&gt;</em>;
+						</code>
+					</p>
+				</blockquote>
+				<p class="continued">will result in an error).</p>
+				<p>Now, you may think that it’s great, but defining directions with pair coordinates is not that simple. After all, you probably can’t see at first sight what direction corresponds to a vector of coordinates (-5.8, 12.3), and what vector corresponds to a direction at 13.5 degrees up from the horizontal, pointing to the left. Well, it’s time then to remember the series of predefined pair values and operators which are there to take care of this job. If you need a simple direction, use the vectors <code>up</code>, <code>down</code>, <code>left</code> and <code>right</code>, whose names correspond exactly to the directions they define. Remember also that if you have two points labeled 1 and 2, <code>z2 - z1</code> is the vector corresponding to the displacement between point 1 and point 2, in the direction of point 2. You can use this at your advantage if you want to force a curve to go in the direction defined by those two points. And finally, if you know the angle the direction you want the curve to take has with the horizontal, don’t hesitate to use “<code>dir</code>” to create a unit vector defining that direction. As you see, you already have all the tools necessary to define directions without having to know exactly how to relate the coordinates of a vector to the direction it defines.</p>
+				<p><strong>Exercise 7</strong>: Answer the following questions as precisely as possible:</p>
+				<ol>
+					<li><p>What is the difference between the directions defined by <code>{left}</code> and <code>{right}</code>?</p></li>
+					<li><p>What direction is defined by <code>{up} + {right}</code>?</p></li>
+					<li><p>What is the difference between the directions defined by <code>{up}</code> and <code>10{up}</code>?</p></li>
+				</ol>
+				<p><strong>Exercise 8</strong>: We have four points, labeled from 0 to 3, whose respective coordinates are given by the following lines:</p>
+				<blockquote>
+					<pre>
+z0 = (0, 0);
+z1 = (100, 100);
+z2 = (50, 60);
+z3 = (120, 10);
+					</pre>
+				</blockquote>
+				<p class="continued">We want to draw a curve going from point 0 to point 1, passing exactly by the middle between points 2 and 3 and being at that point perpendicular to the line defined by those points 2 and 3. Write the instructions necessary to define the middle point between points 2 and 3 (that you will label 4) and to draw the wanted curve (<em>hint</em>: you only need to write two instructions).</p>
+				<p>So, now you can control the shape of your curves, but you are still limited by the fact that whatever you do, your curves will always be open. Even when you make the curve end at the point where it began, like in figure (d), the resulting curve will usually not be smooth at that point. That’s because METAFONT doesn’t care if it goes more than once through the same point. Each time it will be treated independently from the other times. So how do you do to draw an O, or an 8, or for that matter any closed shape?</p>
+				<p>Well, your first idea, based on what we’ve seen until now, could be to fix the direction the curve has to take on the point where the curve starts end ends (<abbr>i.e.</abbr> force the same direction on starting and ending). For instance, taking again the example of figure (d), if you write:</p>
+				<blockquote>
+					<pre>
+draw z0{right}..z5..z4..z2..{right}z0;
+					</pre>
+				</blockquote>
+				<p class="continued">you will end up with a curve which <em>looks</em> smooth and closed (see the figures for the result of that <code>draw</code> command). The problem with this approach is that it <em>obliges</em> you to control the direction of the curve at its starting point, something that you may not want to do (you may not even know how to describe the direction the curve should take). You could always, by a process of trial and error, find the right angle and use “<code>dir</code>,” but this would be bad programming, especially since if you decided to change the position of some points of the curve, you would probably have to change the angle you chose, again through trial and error. Not much meta-ness in this! Of course you could always calculate that direction, but this would often ask you for a lot of work, and sometimes it would just be impossible to do. Moreover, METAFONT would still treat the curve as open, even if it <em>looks</em> closed. METAFONT doesn’t care what the curve looks like. It considers a curve with a starting point and an ending point as open, even if those two points are the same. For now, you needn’t care about it, but at a later time you may learn that it’s important to know what METAFONT considers open and closed.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Open curve that looks closed." src="../images/closedlooking.jpg"/></td></tr>
+							<tr><td>The resulting closed-looking curve.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>OK, so I’ve been thoroughly explaining why the previous approach is wrong and impractical, but I’ve not yet given an alternative. How on earth are we going to make closed curves then?! Well, METAFONT has a simple way to do that. Instead of mentioning twice the same point, at the beginning and the end of the <code>draw</code> command, replace the last mention with “<code>cycle</code>.” The presence of this word will tell METAFONNT that we want to draw a closed curve, and it will automatically connect the last point mentioned before “<code>cycle</code>” with the first point of the curve, and in a smooth way. METAFONT will internally treat this curve as closed. So if we take our example again, we will write:</p>
+				<blockquote>
+					<pre>
+draw z0..z5..z4..z2..cycle;
+					</pre>
+				</blockquote>
+				<p class="continued">and we will get the shape you can see on the closed figure. It is quite different from the shape on apparently closed figure, because you let METAFONT decide the direction the curve would take at point 0, and since there was a symmetry in the positions of the points describing the curve, it drew it according to this symmetry.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Closed curve." src="../images/reallyclosed.jpg"/></td></tr>
+							<tr><td>The curve, as drawn using “<code>cycle</code>.”</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p><strong>Exercise 9</strong>: Use everything you have learned in this section to write a program which draws a vertical <em>closed</em> 8 shape. The only conditions are that the shape must be 200 pixels high and that you must try to use as few points as possible to define your curve.</p>
+			</section>
+			<section id="chapter-2-3">
+				<h3 epub:type="title">Pens</h3>
+				<p>If you have been curious enough to try and reproduce some of the figures you’ve seen until now, you must have noted that your results, while correct in shape, are slightly different from some of what have seen in this tutorial. Namely, the curves you have produced are thicker. For instance, if you tried to reproduce the closed shape in the earlier figure, what you have obtained was probably closer to the next figure. And you have been especially unable to reproduce the figures using thin lines that are present in this tutorial. Yet I have produced all those figures with METAFONT exclusively. So what have I done to get lines of a different thickness from what you get?</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="A thick and closed curve." src="../images/closedthick.jpg"/></td></tr>
+							<tr><td>A thick closed curve.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>If you know a little about how computers work, and especially how they do graphics, you probably have realized that the way I’ve been explaining how METAFONT handles graphics is a metaphor, namely the metaphor of <em>drawing</em>. Indeed, METAFONT is not a man behind a desk with a sheet of paper in front of him. It’s a program, and all it does when handling graphics is handle a grid of pixels, small units of space which have only two states: white or black. And what METAFONT does is tell which pixels are black and which ones stay white. However, the metaphor of drawing is very useful, because from our perspective it looks <em>exactly</em> as if METAFONT was actually a man behind a desk drawing on a piece of paper what we order him to draw. It’s not for nothing that the main drawing instruction is called <code>draw</code>. For instance, just as when we are drawing by hand, METAFONT’s curves behave just as if they are drawn in a certain sense, from one point to the other (the order being of course the order of the points as given behind the <code>draw</code> instruction). This explains why adding a direction as a vector between braces works as we expect it, and why giving an opposite sense can modify a curve so strongly (just check again left and right figures), and exactly the same way as it would do if you draw the curve yourself by hand.</p>
+				<p>But this metaphor of drawing can be further extended. Indeed, when you want to draw something, you need not only your hand and a piece of paper, but also a <em>pen</em>, without which you could never mark anything on the paper! And depending on the kind of pen you’re using (a pencil, a ballpoint pen, a fountain pen, or one of those fancy calligraphic pens with special tips), you will get different results, even if the shape you draw is always the same. Well, in METAFONT you just do exactly the same! METAFONT has a command called <code>pickup</code> that allows you to choose the pen it will use to draw the curves you ask it to draw with the <code>draw</code> command. By using it, you can specify a pen whose tip is more or less big, more or less circular (or of some other shape) etc. The <code>pickup</code> command must simply be followed by the name of the pen you want to use.</p>
+				<p>But to choose a pen, you need pens to choose from! Well, it’s no problem, because METAFONT has a few predefined pens ready for use, besides the default pen that it automatically uses when you don’t pick up another one, and that you’ve been using until now. The two main predefined pens, that you will mostly use, are called <code>pencircle</code> and <code>pensquare</code>. They correspond respectively to a pen whose tip is a circle of 1 pixel of diameter and a pen whose tip is a square of side 1 pixel. Check out circle and square pen figures to see a familiar shape drawn this time using those very thin pens. They were drawn by adding respectively “<code>pickup pencircle;</code>” and “<code>pickup pensquare;</code>” in front of the actual drawing instruction.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Loop made with a circle." src="../images/circleloop.jpg"/></td></tr>
+							<tr><td>(a)</td></tr>
+							<tr><td><img alt="Loop made with a square." src="../images/squareloop.jpg"/></td></tr>
+							<tr><td>(b)</td></tr>
+							<tr><td>The same loop as before, but drawn with (a) <code>pencircle</code> and (b) <code>pensquare</code>.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>Now, for how useful tiny pens can be, what we want usually is bigger pens, <abbr>i.e.</abbr> pens with a bigger tip, like the ones I’ve been using myself. But how can you get such pens when all you have is pens with very small tips? The answer is actually quite simple: <em>transform</em> them! Yes, you understood correctly. All those transformations that we briefly mentioned earlier can apply not only to pair values, but also to pens! Or at least, the transformations that are meaningful in this situation can be applied here. Indeed, since our goal is to change the shape and/or size of our pens, a transformation like “<code>shifted</code>,” “<code>rotatedaround</code>” or “<code>reflectedabout</code>” is useless. However, “<code>scaled</code>” (to change the global size of our pentip), “<code>xscaled</code>” and “<code>yscaled</code>” (to stretch our pentip on one direction only) can be usefully used with pens. For instance, by specifying:</p>
+				<blockquote>
+					<pre>
+pickup pencircle scaled 10;
+					</pre>
+				</blockquote>
+				<p class="continued">you create a pen whose tip is a circle of 10 pixels of diameter. If you write:</p>
+				<blockquote>
+					<pre>
+pickup pensquare xscaled 20;
+					</pre>
+				</blockquote>
+				<p class="continued">you will obtain a pen with a rectangular tip 20 pixels wide and 1 pixel tall. And you can of course concatenate transformations, like in:</p>
+				<blockquote>
+					<pre>
+pickup pencircle xscaled 10 yscaled 35;
+					</pre>
+				</blockquote>
+				<p class="continued">which makes subsequent drawing done with a pen whose tip is ellipsoidal, with a horizontal axis 10 pixels long and a vertical axis 35 pixels long. Check out the flatpen figures to see how different pens can really change how otherwise identical curves look like.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Drawn with a circle." src="../images/flatpen1.jpg"/></td></tr>
+							<tr><td><code>pencircle scaled 20;</code></td></tr>
+							<tr><td>(a)</td></tr>
+							<tr><td><img alt="Drawn with a wide circle pen." src="../images/flatpen2.jpg"/></td></tr>
+							<tr><td><code>pencircle xscaled 20 yscaled 5;</code></td></tr>
+							<tr><td>(b)</td></tr>
+							<tr><td><img alt="Drawn with a tall circle pen." src="../images/flatpen3.jpg"/></td></tr>
+							<tr><td><code>pencircle xscaled 5 yscaled 20;</code></td></tr>
+							<tr><td>(c)</td></tr>
+							<tr><td><img alt="Drawn with a square." src="../images/flatpen4.jpg"/></td></tr>
+							<tr><td><code>pensquare scaled 20;</code></td></tr>
+							<tr><td>(d)</td></tr>
+							<tr><td><img alt="Drawn with a wide square pen." src="../images/flatpen5.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5;</code></td></tr>
+							<tr><td>(e)</td></tr>
+							<tr><td><img alt="Drawn with a tall square pen." src="../images/flatpen6.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 5 yscaled 20;</code></td></tr>
+							<tr><td>(f)</td></tr>
+							<tr><td>Examples of the same loop drawn with different pens.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p><strong>Exercise 10</strong>: List at least three different ways to pick up a 5-pixel-high, 20-pixel-wide, ellipsoidal pen.</p>
+				<p>However, if all you can do is scaling <code>pencircle</code> and <code>pensquare</code>, you’ll rapidly be limited in what you can do. Even when scaling with different factors horizontally and vertically, all you can get is horizontal or vertical pens. And if you know a little about calligraphy, you know that what influences most the looks of letters, besides the shapes of the curves, is the position of the thin and thick strokes. And what fixes their positions is the <em>angle</em> the pen nib makes with horizontality. Calligraphers will turn their pens differently depending on the result they want to achieve. And it’s something METAFONT can easily do by <em>rotating</em> its pens. Indeed, although the “<code>rotatedaround</code>” transformation cannot be used with pens, the “<code>rotated</code>” transformation can, and has the expected effect of putting the pen nib at an angle with horizontality. The next figure shows the effect the angle alone of a pen can have on the looks of otherwise identical curves.</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><img alt="Drawn at 30 degrees." src="../images/anglepen1.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 30;</code></td></tr>
+							<tr><td>(a)</td></tr>
+							<tr><td><img alt="Drawn at 45 degrees." src="../images/anglepen2.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 45;</code></td></tr>
+							<tr><td>(b)</td></tr>
+							<tr><td><img alt="Drawn at 60 degrees." src="../images/anglepen3.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 60;</code></td></tr>
+							<tr><td>(c)</td></tr>
+							<tr><td><img alt="Drawn at 120 degrees." src="../images/anglepen4.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 120;</code></td></tr>
+							<tr><td>(d)</td></tr>
+							<tr><td><img alt="Drawn at 135 degrees." src="../images/anglepen5.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 135;</code></td></tr>
+							<tr><td>(e)</td></tr>
+							<tr><td><img alt="Drawn at 150 degrees." src="../images/anglepen6.jpg"/></td></tr>
+							<tr><td><code>pensquare xscaled 20 yscaled 5 rotated 150;</code></td></tr>
+							<tr><td>(f)</td></tr>
+							<tr><td>Again the same loop drawn with pens of identical shape but tilted at different angles.</td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p><strong>Exercise 11</strong>: Imagine that you want to pick up a rectangular pen 20 pixels wide and 2 pixels high (a very thin pen thus). However, you want it tilted, so that its longest side will be perpendicular to the direction defined by two points 1 and 2. Note that we don’t give any condition on the positions of those two points, only that they have already been defined before you pick up the pen. How would you solve this problem?</p>
+			</section>
+			<section id="chapter-2-4">
+				<h3 epub:type="title">Once More, with Character!</h3>
+				<p>Now I want you to play a bit with your newly acquired knowledge.</p>
+				<p><strong>Exercise 12</strong>: Go back the the last capital letter E you made and make some new files: <code>e045.mp</code>, <code>e015.mp</code>,⁠ ⁠… Make a series of capital Es with an ellipsoid pen, <code>xscaled</code> by 20 and <code>yscaled</code> by 2. Then I want you to try every 45 degree rotation possible from 0 degrees to 315 degrees and just see what the results look like.</p>
+			</section>
+		</section>
+	</body>
+</html>

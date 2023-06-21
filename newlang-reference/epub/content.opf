@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" dir="ltr" prefix="se: https://standardebooks.org/vocab/1.0" unique-identifier="uid" version="3.0" xml:lang="en-US">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<dc:identifier id="uid">newlang-reference</dc:identifier>
+		<dc:date>2023-01-01T00:00:00Z</dc:date>
+		<meta property="dcterms:modified">2023-01-01T00:00:00Z</meta>
+		<dc:rights>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in this book or can be found at https://www.gnu.org/licenses/fdl-1.3.en.html.</dc:rights>
+		<link href="http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-aa" rel="dcterms:conformsTo"/>
+		<meta property="schema:accessMode">visual</meta>
+		<meta property="schema:accessModeSufficient">textual</meta>
+		<meta property="schema:accessibilityFeature">alternativeText</meta>
+		<meta property="schema:accessibilityFeature">readingOrder</meta>
+		<meta property="schema:accessibilityFeature">structuralNavigation</meta>
+		<meta property="schema:accessibilityFeature">tableOfContents</meta>
+		<meta property="schema:accessibilityHazard">none</meta>
+		<meta property="schema:accessibilitySummary">This publication conforms to WCAG 2.1 Level AA.</meta>
+		<link href="onix.xml" media-type="application/xml" properties="onix" rel="record"/>
+		<dc:title id="title">Newlang Reference</dc:title>
+		<meta property="file-as" refines="#title">Newlang Reference</meta>
+		<dc:subject id="subject-1">Languages, Artificial</dc:subject>
+		<meta property="authority" refines="#subject-1">LCSH</meta>
+		<meta property="term" refines="#subject-1">sh85074581</meta>
+		<dc:description id="description">A description and reference for the Newlang language.</dc:description>
+		<dc:language>en-US</dc:language>
+		<meta property="se:word-count">WORD_COUNT</meta>
+		<dc:creator id="author">AUTHOR_NAME</dc:creator>
+		<meta property="file-as" refines="#author">AUTHOR_NAME</meta>
+		<meta property="role" refines="#author" scheme="marc:relators">aut</meta>
+		<meta property="role" refines="#author" scheme="marc:relators">wat</meta>
+	</metadata>
+	<manifest>
+		<item href="css/core.css" id="core.css" media-type="text/css"/>
+		<item href="css/local.css" id="local.css" media-type="text/css"/>
+		<item href="fonts/EsperantoRegular.otf" id="EsperantoRegular.otf" media-type="application/vnd.ms-opentype"/>
+		<item href="images/cover.jpg" id="cover.jpg" media-type="image/jpeg" properties="cover-image"/>
+		<item href="text/counts.xhtml" id="counts.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/description.xhtml" id="description.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-intro.xhtml" id="dictionary-intro.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-a.xhtml" id="dictionary-a.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-b.xhtml" id="dictionary-b.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-ch.xhtml" id="dictionary-ch.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-d.xhtml" id="dictionary-d.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/dictionary-dz.xhtml" id="dictionary-dz.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-intro.xhtml" id="glossary-intro.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-a.xhtml" id="glossary-a.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-b.xhtml" id="glossary-b.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-c.xhtml" id="glossary-c.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-d.xhtml" id="glossary-d.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/glossary-e.xhtml" id="glossary-e.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/grammar.xhtml" id="grammar.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/introduction.xhtml" id="introduction.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/license.xhtml" id="license.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/look.xhtml" id="look.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/sample.xhtml" id="sample.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/sounds.xhtml" id="sounds.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/titlepage.xhtml" id="titlepage.xhtml" media-type="application/xhtml+xml"/>
+		<item href="toc.xhtml" id="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+		<item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+	</manifest>
+	<spine toc="ncx">
+		<itemref idref="titlepage.xhtml"/>
+		<itemref idref="introduction.xhtml"/>
+		<itemref idref="sounds.xhtml"/>
+		<itemref idref="look.xhtml"/>
+		<itemref idref="sample.xhtml"/>
+		<itemref idref="description.xhtml"/>
+		<itemref idref="grammar.xhtml"/>
+		<itemref idref="dictionary-intro.xhtml"/>
+		<itemref idref="counts.xhtml"/>
+		<itemref idref="dictionary-a.xhtml"/>
+		<itemref idref="dictionary-b.xhtml"/>
+		<itemref idref="dictionary-ch.xhtml"/>
+		<itemref idref="dictionary-d.xhtml"/>
+		<itemref idref="dictionary-dz.xhtml"/>
+		<itemref idref="glossary-intro.xhtml"/>
+		<itemref idref="glossary-a.xhtml"/>
+		<itemref idref="glossary-b.xhtml"/>
+		<itemref idref="glossary-c.xhtml"/>
+		<itemref idref="glossary-d.xhtml"/>
+		<itemref idref="glossary-e.xhtml"/>
+		<itemref idref="license.xhtml"/>
+	</spine>
+</package>

@@ -1,0 +1,29 @@
+@charset "utf-8";
+@namespace epub "http://www.idpf.org/2007/ops";
+
+@font-face{
+	font-family: "myfont";
+	font-weight: normal;
+	font-style: normal;
+	src: url(../fonts/EsperantoRegular.otf);
+}
+
+.myfont{
+	font-family: "myfont";
+}
+
+.large{
+	font-family: "myfont";
+	font-size: 2em;
+	break-after: avoid;
+	break-inside: avoid;
+	hyphens: none;
+	-epub-hyphens: none;
+	text-align: center;
+}
+
+#titlepage p{
+	font-variant: small-caps;
+	text-align: center;
+	text-indent: 0;
+}

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 3: Simple Fonts, Alphabets, and Ideographs</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-3">
+			<h2 epub:type="title">Lesson 3: Simple Fonts, Alphabets, and Ideographs</h2>
+			<p>For almost the rest of these lessons we are going to visit with a variety of writing types and try making a few glyphs and getting them to work in TeX. My hope is to both go from simple systems to complicated systems, but at the same time provide enough information that you can make any writing system you want. In general, we are pointing the direction to head but it’s up to you to make the journey.</p>
+			<p>Each of these lessons will have a similar structure.</p>
+			<ul>
+				<li><p><strong>Introduction</strong>⁠—a brief explanation of what we hope to accomplish. The names of the lessons are not always strictly correct and this will correct some of that.</p></li>
+				<li><p><strong>Language</strong>⁠—a list of the glyphs we want to make. None of these will be a full language, just enough to get you pointed in the right direction.</p></li>
+				<li><p><strong>Glyphs</strong>⁠—the actual work of drawing the glyphs we want.</p></li>
+				<li><p><strong>Extras</strong>⁠—either extra things we need to happen in order to get this system to work correctly or sometimes just bonus material that I think might be fascinating.</p></li>
+			</ul>
+			<section id="chapter-3-1">
+				<h3 epub:type="title">Introduction</h3>
+				<p>This lesson is covering what is sometimes called a <em>simple orthography</em>, that is a system of writing with unique and separated glyphs. Examples of such a system are the Roman Alphabet, the syllabaries of Ethiopian and Cherokee, the glyphs of Chinese, and even the mixed syllabaries and glyphs of Japanese. What each of these systems have in common is that you can encode them as a simple system of one glyph to one number. If you had a keyboard, you could place one symbol on each key and the user could reasonably expect that the machine would make that image and move forward one space to be ready for the next one. In this lesson, the difference between writing in English and writing in Chinese is a question of quantity, not complexity. By default we only have support for up to 256 individual glyphs, so if you do want to support a system like Chinese using only material from this lesson then you will need to make multiple fonts in METAFONT and switch between those fonts in TeX.</p>
+			</section>
+			<section id="chapter-3-3">
+				<h3 epub:type="title">Language</h3>
+				<p>Our language will consist of one character in two locations. The A letter of the <em>Moon Alphabet</em>, also called <em>The Moon System of Embossed Reading</em>.</p>
+			</section>
+			<section id="chapter-3-4">
+				<h3 epub:type="title">Glyphs</h3>
+				<p>In some respects you have already done this work. At least, you have if you did all those exercises regarding the capital letter E. I eventually settled on this.</p>
+				<blockquote>
+					<pre>
+z1=(0,0); z2=(5,60); z3=(25,100); z4=(45,60); z5=(50,0);
+draw z1--z2{up}..z3..{down}z4--z5;
+					</pre>
+				</blockquote>
+				<p>But that’s not really fair. So let’s talk about experimenting.</p>
+				<p>If you don’t have a display, then what you have to do is create a series of very similar files. For instance: <code>z2=(5,60);</code> in one and <code>z2=(10,60);</code> in another and so forth. Then set up a script to run them all and compare the results.</p>
+				<p>If you do have a display, then you need to try the <code>clearit;</code> command. This is how I actually came up with this. I started up <code>mf</code>, entered <code>\relax</code>, typed in <code>1+1;</code> and told it to be in nonstop mode and then was ready when I typed in <code>showit;</code>. My first experiment was:</p>
+				<blockquote>
+					<pre>
+draw (0,0)..(25,100)..(50,0); showit;
+					</pre>
+				</blockquote>
+				<p>After this I started experimenting with this line.</p>
+				<blockquote>
+					<pre>
+clearit; draw (0,0){dir 0}..(25,100)..{dir 180}(50,0); showit;
+clearit; draw (0,0){dir 10}..(25,100)..{dir 170}(50,0); showit;
+clearit; draw (0,0){dir 20}..(25,100)..{dir 160}(50,0); showit;
+					</pre>
+				</blockquote>
+				<p>When I couldn’t get that to pan out I started experimenting with two additional points, and finally added in the directions and line segments.</p>
+				<p>It’s not meta. There has been no attempt to mention that <code>y1</code> is the same as <code>y5</code> or that <code>x3</code> is half way between <code>x1</code> and <code>x5</code>. But more importantly, that doesn’t matter <em>yet</em>.</p>
+				<p>Personally, I don’t want to add meta-ness when I come back and finesse my fonts until I have a fairly full font, I don’t have any idea what the meta-ness <em>should</em> be. For this particular font, <code>y1</code> may be equal <code>y5</code> but what will probably turn out being <em>more important</em> is that <code>y1</code> <strong>and</strong> <code>y5</code> are equal to a <code>baseline</code> parameter. So it’s not that I’m against meta-ness, I just don’t want to pre-emptively add it too early when I’m still experimenting with shapes and ideas. Maybe my first experiments will have a baseline, maybe I will decide later that they hang down from a topline instead and my <code>y1</code> and <code>y5</code> will be different but <code>y3</code> will use the <code>topline</code> parameter.</p>
+				<p>There is also most likely better ways to get this shape or even make it better. But I’m <em>ok</em> with that, because I’m still experimenting. I got a great picture that I’m happy with, but how do we turn this into an actual font? Create a text file called <code>moon.mf</code> and put in the following:</p>
+				<blockquote>
+					<pre>
+MOON_LETTER_A = 65; % hex "0041";
+MOON_LETTER_a = 97; % hex "0061";
+
+u#:=20/36pt#;           % unit width
+cap_height#:=246/36pt#; % height of caps
+define_pixels(u);
+
+vardef draw_moon_letter_a =
+    z1=( 0u+1u,0.0h);
+    z2=( 1u+1u,0.6h);
+    z3=( 5u+1u,   h);
+    z4=( 9u+1u,0.6h);
+    z5=(10u+1u,0.0h);
+    pickup pencircle scaled 10;
+    draw z1--z2{up}..z3..{down}z4--z5;
+    labels(range 1 thru 5);
+enddef;
+
+beginchar(MOON_LETTER_A,12u#,cap_height#,0);
+    draw_moon_letter_a;
+endchar;
+
+beginchar(MOON_LETTER_a,12u#,cap_height#,0);
+    draw_moon_letter_a;
+endchar;
+
+end;
+					</pre>
+				</blockquote>
+				<p>Our first two lines (<code>MOON_</code>) define the values we want these characters to be associated with.</p>
+				<p>The next section that begnis with <code>u#:=</code> defines some values that we will be using. The value <code>u</code> feels like about 1/10th of the width of the character⁠— primarily because that’s what I will define it as later. If I’m being completely honest, I chose <code>20/36pt</code> because I see that a lot in Computer Modern⁠— read <i>The METAFONT Book</i> for more. The <code>cap_height</code> the height of capital letters and <code>define_pixels</code> is required my METAFONT.</p>
+				<p>The <code>vardef</code> section is where I define a section I am using more than once. You will notice that I have horizontally spaced out the <code>z</code> definitions. That’s just because it’s the way I like it. I have also adjusted for the character width so what used to be <code>z2=(5,60);</code> for a character 50 wide and 100 tall has become <code>1u,0.6h);</code>. You could also use something like this to make a cuneiform font if you wanted.</p>
+				<p>Then I define the two characters for my font⁠— uppercase A and lowercase a. When we look at <code>beginchar(MOON_LETTER\_A,12u#,cap_height#,0);</code>:</p>
+				<ul>
+					<li><p><code>MOON_LETTER_A</code> is the character code we want to assign this glyph to.</p></li>
+					<li><p><code>12u#</code> is how wide we want the character to be. In my case, that’s 12 units of horizontal space (the 1/10th I mentioned earlier) plus an 1/10th on each side.</p></li>
+					<li><p><code>cap_height#</code> is the height of capital letters.</p></li>
+					<li><p>The final <code>0</code> is how far below the baseline any tail drops.</p></li>
+				</ul>
+				<p class="continued">The call to the function would normally consist of unique commands, but I wanted to show this option as well.</p>
+				<p>Finally I tell METAFONT that I am done with <code>end;</code>. In actuality METAFONT only needs to see <code>end</code> and never notices the trailing <code>;</code>, but it always looks funny to me without it.</p>
+				<p>Now that we have this let’s take a look at our beautiful font.</p>
+				<blockquote>
+					<pre>
+mf moon.mf
+gftodvi moon.2602gf
+dvipdf moon.dvi
+					</pre>
+				</blockquote>
+				<p>This should give you a two page <code>pdf</code> file and both pages should look suspiciously similar. Now let’s turn this into a font.</p>
+				<blockquote>
+					<pre>
+mf '\mode=ljfour; mode_setup; input moon.mf'
+gftopk moon.600gf
+					</pre>
+				</blockquote>
+				<p>And now let’s try it out. Create a file called <code>moontest.tex</code> file with the following lines and see what comes from it.</p>
+				<blockquote>
+					<pre>
+\documentclass{article}
+
+\begin{document}
+\newfont{\moon}{moon}
+
+{\moon
+A a
+}
+\end{document}
+					</pre>
+				</blockquote>
+				<p>When you take a look at your Moon <span class="moonfont">A</span>lph<span class="moonfont">a</span>bet, you’ll notice that there is no space between these two letters. That is correct, we did not define the space character in this font! Though perhaps your language does not have spaces yet you want to include spaces in your sources as a convenience to yourself.</p>
+			</section>
+			<section id="chapter-3-5">
+				<h3 epub:type="title">Extras</h3>
+				<p>For this first writing type I want to mention some additional pen choices and how to organize files.</p>
+				<section id="chapter-3-5-1">
+					<h4 epub:type="title">Pens</h4>
+					<p>I didn’t play with any pens but, again, that’s something I would want to play with later when I have a better sense of the writing as a whole. If you want to have some idea of really good calligraphic features that align nicely with what you have learned in this tutorial, check out the script font by K. U. Leuven. If your distribution doesn’t have it check out <code>http://ctan.org/tex-archive/fonts/script</code>.</p>
+					<p>If you study Computer Modern you will find that they do not do this. Why? In the case of Computer Modern, the font was already well understood and had needs well beyond simulating pens. Even so, there is one additional technique I want to quickly demonstrate.</p>
+					<p>Use METAFONT to try out the following one step at a time with a <code>clearit;</code> before and a <code>showit;</code> afterwards. If you are really feeling adventurous, try turning these progressive experiments into the letters B, C, D, and E.</p>
+					<p><strong>Experiment 1</strong>: Our current state.</p>
+					<blockquote>
+						<pre>
+draw (0,0)..(0,75)..(25,100)..(25,0)..cycle;
+						</pre>
+					</blockquote>
+					<p class="continued">Perhaps not a very useful (or even beautiful) shape, but exactly the type of thing we are used to.</p>
+					<p><strong>Experiment 2</strong>: As thin as can be.</p>
+					<blockquote>
+						<pre>
+pickup pencircle scaled 0;
+draw (0,0)..(0,75)..(25,100)..(25,0)..cycle;
+						</pre>
+					</blockquote>
+					<p class="continued">Hopefully no surprises here.</p>
+					<p><strong>Experiment 3</strong>: A new command.</p>
+					<blockquote>
+						<pre>
+pickup pencircle scaled 0;
+fill (0,0)..(0,75)..(25,100)..(25,0)..cycle;
+						</pre>
+					</blockquote>
+					<p>This is much more akin to how modern font tools work. If you have played with FontForge you will see that you make outlines and fill them in. Though we can now use this to make letters like capital E, we can’t make letters like capital A with this technique.</p>
+					<p><strong>Experiment 4</strong>: Another new command.</p>
+					<blockquote>
+						<pre>
+pickup pencircle scaled 0;
+fill (0,0)..(0,75)..(25,100)..(25,0)..cycle;
+unfill (10,10)..(10,65)..(15,80)..(15,10)..cycle;
+						</pre>
+					</blockquote>
+					<p>Now we can use this to make any letter. I’ve never personally tried this technique to make a letter. If you decide to move from a pen-based writing system to something more like a printing press then this may be a way to go. It will allow for all sorts of letter decorations (like serifs) to be attached which may exist but not be a part of general penmanship.</p>
+				</section>
+				<section id="chapter-3-5-2">
+					<h4 epub:type="title">Organizing Files</h4>
+					<p>Keeping everything in one master file can quickly get files to be unwieldy. You should give some early thoughts to dividing your work up. Let’s see how Computer Modern does this.</p>
+					<p>First, take a look at <code>cmr10.mf</code> and you will find an attempt to <code>input cmbase</code>. After that are a set of parameters, the meta-ness of Computer Modern. At the end you will see a command to <code>generate roman</code>. If search through <code>cmbase</code> you will find that <code>generate</code> is an alias for <code>input</code>. So what is really happening here is <code>roman.mf</code> is being <code>input</code>. Taking a look at <code>roman.mf</code> you will find at the beginning:</p>
+					<blockquote>
+						<pre>
+input romanu;  % upper case (majuscules)
+input romanl;  % lower case (minuscules)
+input greeku;  % upper case Greek letters
+input romand;  % numerals
+input romanp;  % ampersand, question marks, currency sign
+input romspl;  % lowercase specials (dotless \i, ligature \ae, etc.)
+input romspu;  % uppercase specials (\AE, \OE, \O)
+input punct;  % punctuation symbols common to roman and italic text
+input accent;  % accents common to roman and italic text
+if ligs&gt;1: input romlig; fi  % letter ligatures
+if ligs&gt;0: input comlig; fi  % ligatures common with italic text
+if ligs&lt;=1: input romsub; fi  % substitutes for ligatures
+						</pre>
+					</blockquote>
+					<p>Here Computer Modern inputs a bunch of files which happen to define things like A--Z, a--z, numbers, and punctuation. Then, depending on the setting of <code>ligs</code> which is a parameter already set by the <code>cmr10.mf</code> file (among others) to decide what to put in other non-standard locations.</p>
+					<p>If you take a look at <code>romanu.mf</code>, you will find all the letters defined in order. If you know what you will be making, that's not a bad way to go. You might be tempted to take it one step further and have <code>romanu.mf</code> set some variable and <code>input</code> the letters in order. I could imagine something like:</p>
+					<blockquote>
+						<pre>
+current_char_code := current_char_code + 1; input roman_letter_a;
+						</pre>
+					</blockquote>
+					<p class="continued">which let's you quickly move them around as you play with the order they should be in or change your mind about transliteration.</p>
+					<p>Actually, you could skip the middle level and have <code>cmr10.mf</code> do the <code>input</code> the letters in order especially since this will help when trying to turn our conscript fonts into a modern font. On the other hand the middle layer does let you know that the letters are in the same order in every font. Regardless, it's something to think about.</p>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+@charset "utf-8";
+@namespace epub "http://www.idpf.org/2007/ops";
+
+@font-face{
+	font-family: "betafont";
+	font-weight: normal;
+	font-style: normal;
+	src: url(../fonts/beta.otf);
+}
+
+@font-face{
+	font-family: "moonfont";
+	font-weight: normal;
+	font-style: normal;
+	src: url(../fonts/moon.otf);
+}
+
+.betafont{
+	font-family: "betafont";
+}
+
+.moonfont{
+	font-family: "moonfont";
+}
+
+#titlepage p{
+	font-variant: small-caps;
+	text-align: center;
+	text-indent: 0;
+}

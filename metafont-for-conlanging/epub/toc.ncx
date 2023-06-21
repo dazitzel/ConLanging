@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-US">
+	<head>
+		<meta content="metafont-for-conlanging" name="dtb:uid"/>
+	</head>
+	<docTitle>
+		<text>Table of Contents</text>
+	</docTitle>
+	<navMap id="navmap">
+		<navPoint id="navpoint-1" playOrder="1">
+			<navLabel><text>METAFONT for Conlanging</text></navLabel>
+			<content src="text/titlepage.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-2" playOrder="2">
+			<navLabel><text>Imprint</text></navLabel>
+			<content src="text/imprint.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-3" playOrder="3">
+			<navLabel><text>Dedication</text></navLabel>
+			<content src="text/dedication.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-4" playOrder="4">
+			<navLabel><text>Preface</text></navLabel>
+			<content src="text/preface.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-5" playOrder="5">
+			<navLabel><text>Lesson 0: The Name of the Game</text></navLabel>
+			<content src="text/chapter-z.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-6" playOrder="6">
+			<navLabel><text>Lesson 1: My First Character</text></navLabel>
+			<content src="text/chapter-1.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-7" playOrder="7">
+			<navLabel><text>Lesson 2: Pens and Curves</text></navLabel>
+			<content src="text/chapter-2.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-8" playOrder="8">
+			<navLabel><text>Lesson 3: Simple Fonts, Alphabets, and Ideographs</text></navLabel>
+			<content src="text/chapter-3.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-9" playOrder="9">
+			<navLabel><text>Lesson 4: Accents and Abjads</text></navLabel>
+			<content src="text/chapter-4.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-10" playOrder="10">
+			<navLabel><text>Lesson 5: Kerning and Abugidas</text></navLabel>
+			<content src="text/chapter-5.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-11" playOrder="11">
+			<navLabel><text>Lesson 6: Ligatures and Syllabaries</text></navLabel>
+			<content src="text/chapter-6.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-12" playOrder="12">
+			<navLabel><text>Lesson 7: From METAFONT to Modern Fonts</text></navLabel>
+			<content src="text/chapter-7.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-13" playOrder="13">
+			<navLabel><text>Lesson 8: Using Modern Fonts in Epubs</text></navLabel>
+			<content src="text/chapter-8.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-14" playOrder="14">
+			<navLabel><text>Changes</text></navLabel>
+			<content src="text/changes.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-15" playOrder="15">
+			<navLabel><text>Colophon</text></navLabel>
+			<content src="text/colophon.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-16" playOrder="16">
+			<navLabel><text>Answers to Exercises</text></navLabel>
+			<content src="text/answers.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-17" playOrder="17">
+			<navLabel><text>License</text></navLabel>
+			<content src="text/license.xhtml"/>
+		</navPoint>
+	</navMap>
+</ncx>

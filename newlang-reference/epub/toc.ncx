@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-US">
+	<head>
+		<meta content="newlang-reference" name="dtb:uid"/>
+	</head>
+	<docTitle>
+		<text>Table of Contents</text>
+	</docTitle>
+	<navMap id="navmap">
+		<navPoint id="navpoint-1" playOrder="1">
+			<navLabel><text>Newlang Reference</text></navLabel>
+			<content src="text/titlepage.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-2" playOrder="2">
+			<navLabel><text>Newlang Introduction</text></navLabel>
+			<content src="text/introduction.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-3" playOrder="3">
+			<navLabel><text>The Sounds of Newlang</text></navLabel>
+			<content src="text/sounds.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-4" playOrder="4">
+			<navLabel><text>The Look of Newlang</text></navLabel>
+			<content src="text/look.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-5" playOrder="5">
+			<navLabel><text>Samples of Newlang</text></navLabel>
+			<content src="text/sample.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-6" playOrder="6">
+			<navLabel><text>Description of Newlang</text></navLabel>
+			<content src="text/description.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-7" playOrder="7">
+			<navLabel><text>Grammar of Newlang</text></navLabel>
+			<content src="text/grammar.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-8" playOrder="8">
+			<navLabel><text>Introduction to the Newlang Dictionary</text></navLabel>
+			<content src="text/dictionary-intro.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-9" playOrder="9">
+			<navLabel><text>Letter Counts of Newlang</text></navLabel>
+			<content src="text/counts.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-10" playOrder="10">
+			<navLabel><text>Newlang to English Dictionary: A</text></navLabel>
+			<content src="text/dictionary-a.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-11" playOrder="11">
+			<navLabel><text>Newlang to English Dictionary: B</text></navLabel>
+			<content src="text/dictionary-b.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-12" playOrder="12">
+			<navLabel><text>Newlang to English Dictionary: CH</text></navLabel>
+			<content src="text/dictionary-ch.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-13" playOrder="13">
+			<navLabel><text>Newlang to English Dictionary: D</text></navLabel>
+			<content src="text/dictionary-d.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-14" playOrder="14">
+			<navLabel><text>Newlang to English Dictionary: DZ</text></navLabel>
+			<content src="text/dictionary-dz.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-15" playOrder="15">
+			<navLabel><text>Introduction to the English to NewLang Glossary</text></navLabel>
+			<content src="text/glossary-intro.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-16" playOrder="16">
+			<navLabel><text>English to Newlang Glossary: A</text></navLabel>
+			<content src="text/glossary-a.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-17" playOrder="17">
+			<navLabel><text>English to Newlang Glossary: B</text></navLabel>
+			<content src="text/glossary-b.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-18" playOrder="18">
+			<navLabel><text>English to Newlang Glossary: C</text></navLabel>
+			<content src="text/glossary-c.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-19" playOrder="19">
+			<navLabel><text>English to Newlang Glossary: D</text></navLabel>
+			<content src="text/glossary-d.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-20" playOrder="20">
+			<navLabel><text>English to Newlang Glossary: E</text></navLabel>
+			<content src="text/glossary-e.xhtml"/>
+		</navPoint>
+		<navPoint id="navpoint-21" playOrder="21">
+			<navLabel><text>License</text></navLabel>
+			<content src="text/license.xhtml"/>
+		</navPoint>
+	</navMap>
+</ncx>

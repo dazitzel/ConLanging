@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US">
+	<head>
+		<title>Lesson 8: Using Modern Fonts in Epubs</title>
+		<link href="../css/core.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/local.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body>
+		<section id="chapter-8">
+			<h2 epub:type="title">Lesson 8: Using Modern Fonts in Epubs</h2>
+			<p>So now that we have all these modern fonts, how do we get it into an <code>epub</code>? Well let’s start with what an <code>epub</code> file is.</p>
+			<section id="section-8-1">
+				<h3 epub:type="title">What Is an Epub?</h3>
+				<p>At it’s core, an <code>epub</code> file is a collection of compressed files that has some structure to it. That’s it.</p>
+				<p>No really. You can change the extension to be <code>zip</code> and extract it. So what is that structure?</p>
+				<p>If you take this ebook and unzip it you will see something like:</p>
+				<blockquote>
+					<table border="">
+						<tbody>
+							<tr><td><code>epub/</code></td><td></td><td></td></tr>
+							<tr><td></td><td><code>content.opf</code></td><td></td></tr>
+							<tr><td></td><td><code>css/</code></td><td></td></tr>
+							<tr><td></td><td></td><td><em>css files </em></td></tr>
+							<tr><td></td><td><code>fonts/</code></td><td></td></tr>
+							<tr><td></td><td></td><td><em>otf files </em></td></tr>
+							<tr><td></td><td><code>images/ </code></td><td></td></tr>
+							<tr><td></td><td></td><td><em>images</em></td></tr>
+							<tr><td></td><td><code>onix.xml</code></td><td></td></tr>
+							<tr><td></td><td><code>text/</code></td><td></td></tr>
+							<tr><td></td><td></td><td><em>xhtml files</em></td></tr>
+							<tr><td></td><td><code>toc.ncx</code></td><td></td></tr>
+							<tr><td></td><td><code>toc.xhtml</code></td><td></td></tr>
+							<tr><td><code>META-INF/</code></td><td></td><td></td></tr>
+							<tr><td></td><td><code>container.xml</code></td><td></td></tr>
+							<tr><td><code>mimetype</code></td><td></td><td></td></tr>
+						</tbody>
+					</table>
+				</blockquote>
+				<p>The file <code>mimetype</code> is required to be the first file in the zip file and is also required to be uncompressed. This means that if you just unzip and re-zip an <code>epub</code> it may not work. There are <code>epub</code> readers that will work around this issue, but it is a requirement of <code>epub</code> files. There are expectations of what it says as well but by being first and uncrompressed it serves as a basic check for “Should I even bother to look more?”</p>
+				<p>The file <code>container.xml</code> in required and can be compressed. It tells <code>epub</code> readers where to find the <code>content.opf</code>, or equivalent, file.</p>
+				<p>The file <code>content.opf</code> doesn’t even need to have that name, but it almost always does. It’s job is to layout how the rest of the <code>epub</code> is organized and provide meta-data about what’s in the <code>epub</code>.</p>
+				<p>When you are browsing ebooks and can see a cover and can hover over it to see a blurb trying to convince you to buy it⁠—that’s been pulled from <code>content.opf</code>.</p>
+				<p>This allows websites that are trying to sell you an ebook to provide enough information for you to make a decision without having to load the entire ebook.</p>
+				<p>The rest of the organization is actually completely up in the air⁠—though I did try to make it have some sense.</p>
+				<p>The <code>css</code> directory contains all the cascading style sheets I need.</p>
+				<p>The <code>fonts</code> directory contains all the fonts I’m using.</p>
+				<p>The <code>images</code> directory contains all the images I’m using.</p>
+				<p>The <code>text</code> directory contains the text that is the main content of the <code>epub</code> file.</p>
+				<p>The two <code>toc</code> files are the table of contents. One is for the ereader and one is for you.</p>
+			</section>
+			<section id="section-8-2">
+				<h3 epub:type="title">How Do I Get My Fonts Into an Epub File?</h3>
+				<p>First you need to include them in the <code>epub</code> file: like I do in the <code>fonts</code> directory.</p>
+				<p>Next, you need to declare them in your <code>content.opf</code> file:</p>
+				<p>Here's one that I have:</p>
+				<blockquote>
+					<pre>
+&lt;item href="fonts/beta.otf" id="beta.otf" media-type="application/vnd.ms-opentype"/&gt;
+					</pre>
+				</blockquote>
+				<p>I does need to be an <code>otf</code> file in the most recent standards for <code>epub</code> files. The use of <code>ttf</code> files is no longer officially supported.</p>
+				<p>Next, you need to declare it in one of your <code>.css</code> files. I include it in <code>local.css</code> since the font to include is different for each ebook and that fits my workflow better, but you can use any <code>.css</code> file. One example in this book is:</p>
+				<blockquote>
+					<pre>
+@font-face{
+	font-family: "letterbeta";
+	font-weight: normal;
+	font-style: normal;
+	src: url(../fonts/beta.otf);
+}
+
+.betafont{
+	font-family: "letterbeta";
+}
+					</pre>
+				</blockquote>
+				<p>Finally, you have to use it in one or more of your <code>.xhtml</code> files. Here's one use in this book:</p>
+				<blockquote>
+					<pre>
+&lt;p&gt;The Greek letter &lt;span class="betafont"&gt;B&lt;/span&gt;.&lt;/p&gt;
+					</pre>
+				</blockquote>
+			</section>
+			<section id="section-8-3">
+				<h3 epub:type="title">Do I Really Have to Do All That?</h3>
+				<p>That depends a lot on the tool you are using to make <code>epub</code> files.</p>
+				<p>There are many tools where you can simply say "include this font" and then that font will be available as you edit the <code>xhtml</code> files and it will take care of everything.</p>
+				<p>But if you are making the <code>epub</code> files by hand, then that is what you need to do.</p>
+			</section>
+			<section id="section-8-4">
+				<h3 epub:type="title">Can I Test It Before Building?</h3>
+				<p>Yes you can! Open up a web browser and type <code>file://</code> as the address. You <em>should</em> see some type of file listing and can navigate to your <code>xhtml</code> files and view them. If everything is set up correctly, it will find your font file and show your custom characters.</p>
+			</section>
+			<section id="section-8-5">
+				<h3 epub:type="title">I Zipped It Up and It Didn't Work!</h3>
+				<p>It's not a simple <code>zip</code> file. The requirement is a little bit stronger than that⁠— not by much but just a little stronger.</p>
+				<p>The first thing to do is to remove any old version we might have hanging around.</p>
+				<blockquote>
+					<pre>
+rm -f myepup.<code>epub</code>
+					</pre>
+				</blockquote>
+				<p>And now we can create it.</p>
+				<blockquote>
+					<pre>
+cd my<code>epub</code>/
+zip -X0 ../my<code>epub</code>.<code>epub</code> mimetype &gt; /dev/null
+zip -X9Dru ../my<code>epub</code>.<code>epub</code>" * &gt; /dev/null
+cd ..
+					</pre>
+				</blockquote>
+				<p>Finally, we can run some checks on it.</p>
+				<blockquote>
+					<pre>
+java -jar <code>epub</code>check.jar my<code>epub</code>.<code>epub</code>
+					</pre>
+				</blockquote>
+				<p>I will also tell you that the <code>-X0</code> above means to add it to the zip file without any compression in the hopes that even if you are running on a system that I am unfamiliar with you can make it work.</p>
+				<p>And the <code>-X9Dru</code> means to compress as much as possible but only for files not in the zip file already. That is, to leave <code>mimetype</code> in place.</p>
+			</section>
+			<section id="section-8-6">
+				<h3 epub:type="title">Is That How You Did It?</h3>
+				<p>This is the bare minimum needed to get this to work and, yes, this is how I did it. I had a script that said:</p>
+				<blockquote>
+					<pre>
+rm -f metafont-for-conlanging.<code>epub</code>
+cd metafont-for-conlanging/
+zip -X0 ../metafont-for-conlanging.<code>epub</code> mimetype &gt; /dev/null
+zip -X9Dru ../metafont-fon-conlanging.<code>epub</code>" * &gt; /dev/null
+cd ..
+java -jar <code>epub</code>check.jar metafont-for-conlanging.<code>epub</code>
+					</pre>
+				</blockquote>
+				<p>And that's it, you now have an <code>epub</code> with a custom font for a script that you invented.</p>
+				<p>You can use this to include a conscript in something else, to document your conlang, or even to write something entirely in your conscript and conlang.</p>
+			</section>
+		</section>
+	</body>
+</html>
