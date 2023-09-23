@@ -88,7 +88,7 @@ end;
 				<p>Our first two lines (<code>MOON_</code>) define the values we want these characters to be associated with.</p>
 				<p>The next section that begnis with <code>u#:=</code> defines some values that we will be using. The value <code>u</code> feels like about 1/10th of the width of the character⁠— primarily because that’s what I will define it as later. If I’m being completely honest, I chose <code>20/36pt</code> because I see that a lot in Computer Modern⁠— read <i>The METAFONT Book</i> for more. The <code>cap_height</code> the height of capital letters and <code>define_pixels</code> is required my METAFONT.</p>
 				<p>The <code>vardef</code> section is where I define a section I am using more than once. You will notice that I have horizontally spaced out the <code>z</code> definitions. That’s just because it’s the way I like it. I have also adjusted for the character width so what used to be <code>z2=(5,60);</code> for a character 50 wide and 100 tall has become <code>1u,0.6h);</code>. You could also use something like this to make a cuneiform font if you wanted.</p>
-				<p>Then I define the two characters for my font⁠— uppercase A and lowercase a. When we look at <code>beginchar(MOON_LETTER\_A,12u#,cap_height#,0);</code>:</p>
+				<p>Then I define the two characters for my font⁠— uppercase A and lowercase a. When we look at <code>beginchar(MOON_LETTER_A,12u#,cap_height#,0);</code>:</p>
 				<ul>
 					<li><p><code>MOON_LETTER_A</code> is the character code we want to assign this glyph to.</p></li>
 					<li><p><code>12u#</code> is how wide we want the character to be. In my case, that’s 12 units of horizontal space (the 1/10th I mentioned earlier) plus an 1/10th on each side.</p></li>
